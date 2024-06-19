@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 
 const InstagramFeed = () => {
   const [postsArray, setPostsArray] = useState<any[]>([]);
-
+  
   useEffect( () => {
+    const access_token = process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN;
+
     async function fetchData() {
-      await fetch("https://graph.instagram.com/me/media?fields=media_url&access_token=IGQWRNTnFQMUNnbkhrNjhxemVjRU9OSXJEZA2d4dDItVGpBZAW14QXQ1WFVNYVdGeDVDU19rbVRTd2ZAmWW94Tnk3MFN6R29nQlJKX2lxdkJoNHJDWEZA3STBRdGtrS3U0bFhsQTVqX1Vtc0JaQ3BLLWk0UTNWVXpGQnMZD")
+      await fetch(`https://graph.instagram.com/me/media?fields=media_url&access_token=${access_token}`)
         .then(response => response.json())
         .then(res => setPostsArray(res.data.slice(0,9)))
     };
