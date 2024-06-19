@@ -12,6 +12,8 @@ import "react-rater/lib/react-rater.css";
 import "../assets/css/styles.scss";
 import ThemeProvider from "../components/context/theme-provider";
 
+import { SessionProvider } from "next-auth/react"
+
 import * as gtag from "./../utils/gtag";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -22,10 +24,12 @@ if (isProduction) {
   Router.events.on("routeChangeComplete", (url: string) => gtag.pageview(url));
 }
 
-const MyApp = ({ Component, pageProps }: AppProps) => (
+const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
   <Fragment>
     <ThemeProvider>
-      <Component {...pageProps} />
+      <SessionProvider>
+        <Component {...pageProps} />
+      </SessionProvider>
     </ThemeProvider>
   </Fragment>
 );

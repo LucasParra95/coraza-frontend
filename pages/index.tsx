@@ -1,6 +1,7 @@
 import Layout from "../layouts/Main";
 import PageIntro from "../components/page-intro";
 import ProductsFeatured from "../components/products-featured";
+import InstagramFeed from "../components/instagram-feed";
 import Footer from "../components/footer";
 import Subscribe from "../components/subscribe";
 
@@ -16,9 +17,9 @@ const IndexPage = () => {
             className="featured-item featured-item-large"
           >
             <div className="featured-item__content">
-              <h3>New arrivals are now in!</h3>
+              <h3>Ya llegaron los nuevos productos</h3>
               <a href="#" className="btn btn--rounded">
-                Show Collection
+                Mostrar Colección
               </a>
             </div>
           </article>
@@ -28,9 +29,9 @@ const IndexPage = () => {
             className="featured-item featured-item-small-first"
           >
             <div className="featured-item__content">
-              <h3>Basic t-shirts $29,99</h3>
+              <h3>Remeras estampadas $3999</h3>
               <a href="#" className="btn btn--rounded">
-                More details
+                Ver más
               </a>
             </div>
           </article>
@@ -40,9 +41,9 @@ const IndexPage = () => {
             className="featured-item featured-item-small"
           >
             <div className="featured-item__content">
-              <h3>Sale this summer</h3>
+              <h3>Ofertas de temporada</h3>
               <a href="#" className="btn btn--rounded">
-                VIEW ALL
+                Ver Todas
               </a>
             </div>
           </article>
@@ -52,17 +53,16 @@ const IndexPage = () => {
       <section className="section">
         <div className="container">
           <header className="section__intro">
-            <h4>Why should you choose us?</h4>
+            <h4>¿Porque elegirnos?</h4>
           </header>
 
           <ul className="shop-data-items">
             <li>
               <i className="icon-shipping"></i>
               <div className="data-item__content">
-                <h4>Free Shipping</h4>
+                <h4>Envíos a todo el país</h4>
                 <p>
-                  All purchases over $199 are eligible for free shipping via
-                  USPS First Class Mail.
+                  Hacemos envios a toda la Argentina a traves de Correo Argentino
                 </p>
               </div>
             </li>
@@ -70,15 +70,14 @@ const IndexPage = () => {
             <li>
               <i className="icon-payment"></i>
               <div className="data-item__content">
-                <h4>Easy Payments</h4>
+                <h4>Compras faciles y seguras</h4>
                 <p>
-                  All payments are processed instantly over a secure payment
-                  protocol.
+                  Los pagos son procesados a traves de MercadoPago, garantizando la seguridad y transparencia de tus compras
                 </p>
               </div>
             </li>
 
-            <li>
+            {/* <li>
               <i className="icon-cash"></i>
               <div className="data-item__content">
                 <h4>Money-Back Guarantee</h4>
@@ -87,15 +86,15 @@ const IndexPage = () => {
                   can send it back for a full refund.
                 </p>
               </div>
-            </li>
+            </li> */}
 
             <li>
               <i className="icon-materials"></i>
               <div className="data-item__content">
-                <h4>Finest Quality</h4>
+                <h4>La mejor calidad</h4>
                 <p>
-                  Designed to last, each of our products has been crafted with
-                  the finest materials.
+                  Diseñado para durar, cada uno de nuestros productos ha sido elaborado con
+                  los mejores materiales.
                 </p>
               </div>
             </li>
@@ -104,6 +103,8 @@ const IndexPage = () => {
       </section>
 
       <ProductsFeatured />
+
+      <InstagramFeed />
       <Subscribe />
       <Footer />
     </Layout>

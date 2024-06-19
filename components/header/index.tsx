@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import useOnClickOutside from "use-onclickoutside";
 import Logo from "../../assets/icons/logo";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { RootState } from "store";
-import { DarkModeSwitch } from "react-toggle-dark-mode";
-import { ThemeContext } from "components/context/theme-context";
+// import { DarkModeSwitch } from "react-toggle-dark-mode";
+// import { ThemeContext } from "components/context/theme-context";
 
 type HeaderType = {
   isErrorPage?: Boolean;
@@ -25,7 +25,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   const navRef = useRef(null);
   const searchRef = useRef(null);
 
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  // const { theme, toggleTheme } = useContext(ThemeContext);
 
   const headerClass = () => {
     if (window.pageYOffset === 0) {
@@ -62,20 +62,25 @@ const Header = ({ isErrorPage }: HeaderType) => {
     <header className={`site-header ${!onTop ? "site-header--fixed" : ""}`}>
       <div className="container">
         <Link href="/">
-          <h1 className="site-logo">
-            <Logo />
-            E-Shop
-          </h1>
+          <div className="site-logo">
+            {/* <Logo /> */}
+            <img
+              className="logo"
+              src='/images/logos/Logo_Coraza-15.png'
+            />
+            {/* CORAZA */}
+          </div>
         </Link>
         <nav
           ref={navRef}
           className={`site-nav ${menuOpen ? "site-nav--open" : ""}`}
         >
-          <Link href="/products">Products</Link>
-          <a href="#">Inspiration</a>
-          <a href="#">Rooms</a>
+          <Link href="/products">Mochilas</Link>
+          <a href="#">Billeteras</a>
+          <a href="#">Indumentaria</a>
+          {/* <a href="#">Bolsos</a> */}
           <button className="site-nav__btn">
-            <p>Account</p>
+            <p>Cuenta</p>
           </button>
         </nav>
 
@@ -102,14 +107,14 @@ const Header = ({ isErrorPage }: HeaderType) => {
               className="icon-search"
             ></i>
           </button>
-          <DarkModeSwitch
+          {/* <DarkModeSwitch
             className="dark-toggle"
             checked={theme === "light" ? false : true}
             onChange={toggleTheme}
             moonColor={!onTop ? "white" : "black"}
             sunColor={!onTop ? "black" : "white"}
             size={24}
-          />
+          /> */}
           <Link href="/cart" legacyBehavior>
             <button className="btn-cart">
               <i className="icon-cart"></i>

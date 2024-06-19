@@ -16,9 +16,13 @@
     "next"
   ],
   "dependencies": {
+    "@auth/mongodb-adapter": "^2.4.0",
     "@reduxjs/toolkit": "^1.8.1",
+    "@types/scheduler": "^0.16.8",
     "lodash": "^4.17.21",
+    "mongodb": "^6.3.0",
     "next": "latest",
+    "next-auth": "^4.24.6",
     "next-redux-wrapper": "^6.0.2",
     "rc-slider": "^9.3.1",
     "react": "^18.1.0",
@@ -39,6 +43,8 @@
     "use-onclickoutside": "latest"
   },
   "devDependencies": {
+    "@swc/cli": "^0.3.9",
+    "@swc/core": "^1.4.0",
     "@types/lodash": "^4.14.182",
     "@types/node": "^17.0.34",
     "@types/react": "^18.0.9",
