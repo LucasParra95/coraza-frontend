@@ -30,11 +30,25 @@ export default async function (
     case "GET":
       try {
         const products = await ProductModel.find({})
-        // ACA HAY UN PROBLEMA
-        .populate('category')
-        .populate('stock');
-        return res.status(201).json(products)
-        //return res.status(201).json({msg:"Esto funca Bien"})
+        // .populate('category')
+        // .populate('stock');
+        const productsFormated = products.map( (prod) => {
+          
+          return {
+            id: prod._id,
+            name: prod.title,
+            price: prod.price.toString(),
+            currentPrice: prod.price,
+            quantityAvailable: prod.price,
+            category: prod.category,
+            sizes: [prod.price],
+            colors: [],
+            images: prod.photos,
+            punctuation: {},
+            reviews: [{}],
+          }
+        } )        
+        return res.status(201).json(productsFormated)
       } catch (error) {
         return res.status(400).json({ error: error });
       }

@@ -62,7 +62,7 @@ const Footer = () => {
               </li>
             </ul>
             <ul>
-              <li>Information</li>
+              <li>Información</li>
               <li>
                 <a href="#">Gift Cards</a>
               </li>
@@ -80,9 +80,9 @@ const Footer = () => {
               </li>
             </ul>
             <ul>
-              <li>Contact</li>
+              <li>Contacto</li>
               <li>
-                <a href="#">whitehorse9021@gmail.com</a>
+                <a href="#">somoscoraza@gmail.com</a>
               </li>
               <li>
                 <a href="#">Hotline: +1 214-717-4816</a>
@@ -92,11 +92,11 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="site-footer__bottom">
+      {/* <div className="site-footer__bottom">
         <div className="container">
-          <p>DESIGN BY WHITEHORSE - © 2023. ALL RIGHTS RESERVED.</p>
+          <p>DISEÑADO POR LUCAS PARRA - © 2024. ALL RIGHTS RESERVED.</p>
         </div>
-      </div>
+      </div> */}
     </footer>
   );
 };

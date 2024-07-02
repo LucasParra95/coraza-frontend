@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import useOnClickOutside from "use-onclickoutside";
-import Logo from "../../assets/icons/logo";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { RootState } from "store";

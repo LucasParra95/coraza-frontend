@@ -1,4 +1,4 @@
-// import mongoose from "mongoose";
+import mongoose from "mongoose";
 // import  CategoryModel from "./Category";
 // import { IStocks } from "./Stock";
 
@@ -63,8 +63,8 @@ class Product {
   public price!: number;
   @prop({  type: String })
   public description!: string;
-  @prop({ type: () => [String] })
-  public photos: string[];
+  @prop({ type: () => mongoose.Schema.Types.Mixed , default: [] })
+  public photos!: string[];
   @prop({ ref: () => Category })
   public category!: Ref<Category>;
   @prop({  type: String })

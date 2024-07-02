@@ -78,7 +78,7 @@ const InstagramFeed = () => {
                 </div>
               ) }
             </header>
-            {postsArray.map(post => {
+            {postsArray.length && postsArray.map(post => {
               if(post.media_type === "VIDEO") {
                 return (
                   <img key={post.id} className="section-instagram-feed__img" src={post.thumbnail_url}></img>
