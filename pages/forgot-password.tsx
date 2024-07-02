@@ -29,14 +29,14 @@ const ForgotPassword = () => {
         <div className="container">
           <div className="back-button-section">
             <Link href="/products">
-              <i className="icon-left"></i>Back to shop
+              <i className="icon-left"></i>Volver a la tienda
             </Link>
           </div>
 
           <div className="form-block">
-            <h2 className="form-block__title">Forgot your password?</h2>
+            <h2 className="form-block__title">¿Olvidaste tu contraseña?</h2>
             <p className="form-block__description">
-              Enter your email or phone number and recover your account
+              Ingresa tu mail o número de teléfono para recuperar tu cuenta
             </p>
 
             <form className="form" onSubmit={handleSubmit(onSubmit as any)}>
@@ -54,13 +54,13 @@ const ForgotPassword = () => {
 
                 {errors.email && errors.email.type === "required" && (
                   <p className="message message--error">
-                    This field is required
+                    Este campo es obligatorio
                   </p>
                 )}
 
                 {errors.email && errors.email.type === "pattern" && (
                   <p className="message message--error">
-                    Please write a valid email
+                    Por favor, ingresa un mail válido 
                   </p>
                 )}
               </div>
@@ -74,7 +74,7 @@ const ForgotPassword = () => {
                 />
                 {errors.password && errors.password.type === "required" && (
                   <p className="message message--error">
-                    This field is required
+                    Este campo es obligatorio
                   </p>
                 )}
               </div>
@@ -83,7 +83,7 @@ const ForgotPassword = () => {
                 type="submit"
                 className="btn btn--rounded btn--yellow btn-submit"
               >
-                Reset password
+                Reiniciar contraseña
               </button>
             </form>
           </div>

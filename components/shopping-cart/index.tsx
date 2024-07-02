@@ -19,7 +19,7 @@ const ShoppingCart = () => {
     <section className="cart">
       <div className="container">
         <div className="cart__intro">
-          <h3 className="cart__title">Shopping Cart</h3>
+          <h3 className="cart__title">Carrito de compra</h3>
           <CheckoutStatus step="cart" />
         </div>
 
@@ -28,11 +28,11 @@ const ShoppingCart = () => {
             <table>
               <tbody>
                 <tr>
-                  <th style={{textAlign: 'left'}}>Product</th>
+                  <th style={{textAlign: 'left'}}>Producto</th>
                   <th>Color</th>
-                  <th>Size</th>
-                  <th>Ammount</th>
-                  <th>Price</th>
+                  <th>Tamaño</th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
                   <th></th>
                 </tr>
 
@@ -53,16 +53,16 @@ const ShoppingCart = () => {
           } 
           
           {cartItems.length === 0 && 
-            <p>Nothing in the cart</p>
+            <p>El carrito está vacío</p>
           }
         </div>
       
         <div className="cart-actions">
-          <a href="/products" className="cart__btn-back"><i className="icon-left"></i> Continue Shopping</a>
+          <a href="/products" className="cart__btn-back"><i className="icon-left"></i> Continuar Comprando</a>
           <input type="text" placeholder="Promo Code" className="cart__promo-code" />
 
           <div className="cart-actions__items-wrapper">
-            <p className="cart-actions__total">Total cost <strong>${priceTotal().toFixed(2)}</strong></p>
+            <p className="cart-actions__total">Coste total <strong>${priceTotal().toFixed(2)}</strong></p>
             <a href="/cart/checkout" className="btn btn--rounded btn--yellow">Checkout</a>
           </div>
         </div>

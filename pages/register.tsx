@@ -7,13 +7,13 @@ const RegisterPage = () => (
       <div className="container">
         <div className="back-button-section">
           <Link href="/products">
-            <i className="icon-left"></i>Back to store
+            <i className="icon-left"></i>Volver a la tienda
           </Link>
         </div>
 
         <div className="form-block">
           <h2 className="form-block__title">
-            Create an account and discover the benefits
+            Crea una cuenta
           </h2>
           <p className="form-block__description">
             Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -50,7 +50,7 @@ const RegisterPage = () => (
               />
             </div>
 
-            <div className="form__info">
+            {/* <div className="form__info">
               <div className="checkbox-wrapper">
                 <label
                   htmlFor="check-signed-in"
@@ -63,21 +63,21 @@ const RegisterPage = () => (
                   />
                   <span className="checkbox__check"></span>
                   <p>
-                    I agree to the Google Terms of Service and Privacy Policy
+                    Acepto
                   </p>
                 </label>
               </div>
-            </div>
+            </div> */}
 
             <button
               type="button"
               className="btn btn--rounded btn--yellow btn-submit"
             >
-              Sign up
+              Registrarse
             </button>
 
             <p className="form__signup-link">
-              <Link href="/login">Are you already a member?</Link>
+              <Link href="/login">¿Ya eres miembro?</Link>
             </p>
           </form>
         </div>
