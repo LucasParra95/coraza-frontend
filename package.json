@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "@auth/mongodb-adapter": "^2.4.0",
+    "@babel/core": "^7.24.9",
     "@mercadopago/sdk-js": "^0.0.3",
     "@mercadopago/sdk-react": "^0.0.19",
     "@reduxjs/toolkit": "^1.8.1",
