@@ -34,7 +34,10 @@ const InstagramFeed = () => {
   }
 
   return (
-        <div className="section section-instagram-feed">
+        <div className="section section-instagram-feed"
+        onClick= { ()=> {
+          window.open("https://www.instagram.com/somoscoraza/")
+        } }>
           <div className="container">
             <div className='title-instagram'>
               <p>Seguinos en</p>

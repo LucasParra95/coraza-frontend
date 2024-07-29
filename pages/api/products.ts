@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../lib/dbConnect";
 import  ProductModel from "../../models/Product";
-//import Category, { Categories } from "../../models/Category";
+// import Category from "../../models/Category";
 // import Stock from "../../models/Stock";
 
 // fake data
@@ -30,8 +30,8 @@ export default async function (
     case "GET":
       try {
         const products = await ProductModel.find({})
-        // .populate('category')
-        // .populate('stock');
+         .populate('category')
+         .populate('stock');
         const productsFormated = products.map( (prod) => {
           
           return {
@@ -39,7 +39,8 @@ export default async function (
             name: prod.title,
             price: prod.price.toString(),
             currentPrice: prod.price,
-            quantityAvailable: prod.price,
+            quantityAvailable: prod.stock,
+            description: prod.description,
             category: prod.category,
             sizes: [prod.price],
             colors: [],

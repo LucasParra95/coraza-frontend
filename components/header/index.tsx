@@ -15,17 +15,19 @@ const Header = ({ isErrorPage }: HeaderType) => {
   const router = useRouter();
   const { cartItems } = useSelector((state: RootState) => state.cart);
   const arrayPaths = ["/"];
-
+  
+  
   const [onTop, setOnTop] = useState(
     !arrayPaths.includes(router.pathname) || isErrorPage ? false : true
   );
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [data, setData] = useState([]);
   const navRef = useRef(null);
   const searchRef = useRef(null);
 
   // const { theme, toggleTheme } = useContext(ThemeContext);
-
+  
   const headerClass = () => {
     if (window.pageYOffset === 0) {
       setOnTop(true);
@@ -33,12 +35,24 @@ const Header = ({ isErrorPage }: HeaderType) => {
       setOnTop(false);
     }
   };
+  const fetcher = async() => {
+    try {
+      const categories = await fetch('/api/categories')
+        .then((res) => res.json())
+      
+      setData(categories);
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
 
   useEffect(() => {
     if (!arrayPaths.includes(router.pathname) || isErrorPage) {
       return;
     }
 
+    fetcher();
     headerClass();
     window.onscroll = function () {
       headerClass();
@@ -74,10 +88,20 @@ const Header = ({ isErrorPage }: HeaderType) => {
           ref={navRef}
           className={`site-nav ${menuOpen ? "site-nav--open" : ""}`}
         >
-          <Link href="/products">Mochilas</Link>
+          {/* <Link href="/products">Mochilas</Link>
           <a href="#">Billeteras</a>
           <a href="#">Indumentaria</a>
-          {/* <a href="#">Bolsos</a> */}
+          <a href="#">Bolsos</a> */}
+
+          {
+            !data ? (
+              <div>Cargando categorías</div>
+            ) : data.map( (cat: any) => {
+              return (
+                <a href="">{cat.title}</a>
+              )
+            } )
+          }
           <button className="site-nav__btn">
             <p>Cuenta</p>
           </button>

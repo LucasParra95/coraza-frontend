@@ -14,8 +14,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect();
 
     const product = await ProductModel.findById(pid)
-    // .populate('category')
-    // .populate('stock');
+     .populate('category')
+     .populate('stock');
     const productsFormated = 
       
       {
@@ -23,7 +23,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         name: product?.title,
         price: product?.price.toString(),
         currentPrice: product?.price,
-        quantityAvailable: product?.price,
+        quantityAvailable: product?.stock,
+        description: product?.description,
         category: product?.category,
         sizes: [product?.price],
         colors: [],

@@ -15,7 +15,6 @@ export default async function (
         try {
           const categories = await CategoryModel.find()
           return res.status(201).json(categories)
-          //return res.status(201).json({msg:"Esto funca Bien"})
         } catch (error) {
           return res.status(400).json({ error: error });
         }

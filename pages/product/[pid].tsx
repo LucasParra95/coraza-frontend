@@ -40,18 +40,18 @@ const Product = ({ product }: ProductPageType) => {
       <section className="product-single">
         <div className="container">
           <div className="product-single__content">
-            <Gallery images={product.images} />
+            <Gallery images={product.images.slice(0,5)} />
             <Content product={product} />
           </div>
 
           <div className="product-single__info">
             <div className="product-single__info-btns">
-              <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button>
-              <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button>
+              <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Descripción</button>
+              <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Opiniones (2)</button>
             </div>
 
-            <Description show={showBlock === 'description'} />
-            <Reviews product={product} show={showBlock === 'reviews'} />
+            <Description show={showBlock === 'description'} description={product.description} />
+            {/* <Reviews product={product} show={showBlock === 'reviews'} /> */}
           </div>
         </div>
       </section>
