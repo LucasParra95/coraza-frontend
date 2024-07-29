@@ -27,6 +27,8 @@ if (!MONGODB_URI) {
       if (connection.readyState === 1) {
         console.log("MongoDB Connected");
         return Promise.resolve(true);
+      }else{
+        return Promise.resolve(false);
       }
     } catch (error) {
       console.error(error);
