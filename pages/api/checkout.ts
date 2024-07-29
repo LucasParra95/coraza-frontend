@@ -7,7 +7,7 @@ const client = new MercadoPagoConfig({ accessToken: process.env.NEXT_PUBLIC_MP_T
 const preference = new Preference(client);  
 
 
-const URL = "http://localhost:3000/";
+const URL = "https://coraza-frontend.vercel.app/";
 
 // En "items" se puede usar directamente el producto, a fines de prueba tambien se puede hardcodear y poner valores
 // hasta 5 como minimo.
