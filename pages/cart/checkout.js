@@ -16,7 +16,6 @@ const CheckoutMercadoPago = dynamic(() => import("./../../components/checkout-bu
 const CheckoutPage = () => {
   const router = useRouter();
 
-  
   const [notification, setNotificacion] = useState({
     isOpen: false,
     type: null,
@@ -72,7 +71,7 @@ useEffect(() => {
 
           <div className="checkout-content">
             <div className="checkout__col-6">
-              <div className="checkout__btns">
+              {/* <div className="checkout__btns">
                 <button
                   className="btn btn--rounded btn--yellow"
                   onClick={() => router.push("/login")}
@@ -85,7 +84,7 @@ useEffect(() => {
                 >
                   Registrarse
                 </button>
-              </div>
+              </div> */}
 
               <div className="block">
                 <h3 className="block__title">Informacíon de Envío:</h3>
@@ -238,18 +237,13 @@ useEffect(() => {
 
           <div className="cart-actions cart-actions--checkout">
             <a href="/cart" className="cart__btn-back">
-              <i className="icon-left"></i> Back
+              <i className="icon-left"></i> Atrás
             </a>
             <div className="cart-actions__items-wrapper">
-              <button type="button" className="btn btn--rounded btn--border">
-                Continue shopping
-              </button>
-              {/* <button type="button" className="btn btn--rounded btn--yellow">
-                Proceed to payment
-              </button> */}
+              <a href="/products" type="button" className="btn btn--rounded btn--border">
+                Continuar comprando
+              </a>
               <CheckoutMercadoPago/>
-{/* <Wallet initialization={{ preferenceId: 'prueba' }} customization={{ texts:{ valueProp: 'smart_option'}}} /> */}
-
             </div>
           </div>
         </div>

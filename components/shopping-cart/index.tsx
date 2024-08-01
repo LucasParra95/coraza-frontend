@@ -1,10 +1,12 @@
 import { useSelector } from 'react-redux';
 import CheckoutStatus from '../../components/checkout-status';
 import Item from './item';
+import { useSession } from "next-auth/react";
 import { RootState } from 'store';
 
 const ShoppingCart = () => {
   const { cartItems } = useSelector((state: RootState)  => state.cart);
+  const { data: session } = useSession()
 
   const priceTotal = () => {
     let totalPrice = 0;
@@ -59,7 +61,7 @@ const ShoppingCart = () => {
       
         <div className="cart-actions">
           <a href="/products" className="cart__btn-back"><i className="icon-left"></i> Continuar Comprando</a>
-          <input type="text" placeholder="Promo Code" className="cart__promo-code" />
+          {/* <input type="text" placeholder="Promo Code" className="cart__promo-code" /> */}
 
           <div className="cart-actions__items-wrapper">
             <p className="cart-actions__total">Coste total <strong>${priceTotal().toFixed(2)}</strong></p>
@@ -67,6 +69,11 @@ const ShoppingCart = () => {
           </div>
         </div>
       </div>
+      {!session &&
+        <div role='dialog'>
+          <h2>Debes iniciar sesión para poder comprar</h2>
+        </div>
+      }
     </section>
   )
 };

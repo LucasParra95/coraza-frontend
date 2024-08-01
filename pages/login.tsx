@@ -1,32 +1,32 @@
 import Layout from "../layouts/Main";
 import Link from "next/link";
-// import { useForm, SubmitHandler } from "react-hook-form";
-// import { server } from "../utils/server";
-// import { postData } from "../utils/services";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { server } from "../utils/server";
+import { postData } from "../utils/services";
 import { useSession, signIn, signOut } from "next-auth/react";
 
-// type FormValues = {
-//   email: string;
-//   password: string;
-//   keepSigned?: boolean;
-// };
+type FormValues = {
+  email: string;
+  password: string;
+  keepSigned?: boolean;
+};
 
 const LoginPage = () => {
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  // const onSubmit: SubmitHandler<FormValues> = async (data) => {
-  //   console.log(data);
-  //   const res = await postData(`${server}/api/login`, {
-  //     email: data.email,
-  //     password: data.password,
-  //   });
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    console.log(data);
+    const res = await postData(`${server}/api/login`, {
+      email: data.email,
+      password: data.password,
+    });
 
-  //   console.log(res);
-  // };
+    console.log(res);
+  };
   const { data: session } = useSession()
 
   if(session) {
@@ -36,19 +36,19 @@ const LoginPage = () => {
           <div className="container">
             <div className="back-button-section">
               <Link href="/products">
-                <i className="icon-left"></i>Back to store
+                <i className="icon-left"></i>Volver a la Tienda
               </Link>
             </div>
 
             <div className="form-block">
-              <h2 className="form-block__title">Signed in as {session.user?.email}</h2>
-              <p className="form-block__description">
+              <h2 className="form-block__title">Sesión iniciada como: {session.user?.email}</h2>
+              {/* <p className="form-block__description">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy text
                 ever since the 1500s
-              </p>
+              </p> */}
             </div>
-            <button onClick={() => signOut()}>Sign out</button>
+            <button onClick={() => signOut()}>Cerrar sesión</button>
           </div>
         </section>
       </Layout>
@@ -66,13 +66,24 @@ const LoginPage = () => {
 
           <div className="form-block">
             <h2 className="form-block__title">Iniciar sesión:</h2>
-            <p className="form-block__description">
+            {/* <p className="form-block__description">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s
             </p>
-            <button onClick={() => signIn('google')}>Ingresa con Google</button>
-            {/* <form className="form" onSubmit={handleSubmit(onSubmit as any)}>
+            <button onClick={() => signIn('google')}>Ingresa con Google</button> */}
+            <div className="form__info">
+              <p>Ingresar con:</p>
+              <div className="signIn__btns">
+                <button onClick={() => signIn('facebook')} type="button" className="btn-social fb-btn">
+                  <i className="icon-facebook"></i>Facebook
+                </button> 
+                <button onClick={() => signIn('google')} type="button" className="btn-social google-btn">
+                  <img src="/images/icons/gmail.svg" alt="gmail" /> Gmail
+                </button>
+              </div>
+            </div>
+            <form className="form" onSubmit={handleSubmit(onSubmit as any)}>
               <div className="form__input-row">
                 <input
                   className="form__input"
@@ -87,13 +98,13 @@ const LoginPage = () => {
 
                 {errors.email && errors.email.type === "required" && (
                   <p className="message message--error">
-                    This field is required
+                    Este campo es obligatorio
                   </p>
                 )}
 
                 {errors.email && errors.email.type === "pattern" && (
                   <p className="message message--error">
-                    Please write a valid email
+                    Ingresa un mail válido
                   </p>
                 )}
               </div>
@@ -107,7 +118,7 @@ const LoginPage = () => {
                 />
                 {errors.password && errors.password.type === "required" && (
                   <p className="message message--error">
-                    This field is required
+                    Este campo es obligatorio
                   </p>
                 )}
               </div>
@@ -124,37 +135,29 @@ const LoginPage = () => {
                       {...register("keepSigned", { required: false })}
                     />
                     <span className="checkbox__check"></span>
-                    <p>Keep me signed in</p>
+                    <p>Recordarme</p>
                   </label>
                 </div>
                 <a
                   href="/forgot-password"
                   className="form__info__forgot-password"
                 >
-                  Forgot password?
+                  ¿Olvidaste la contraseña?
                 </a>
               </div>
 
-              <div className="form__btns">
-                <button type="button" className="btn-social fb-btn">
-                  <i className="icon-facebook"></i>Facebook
-                </button> 
-                <button type="button" className="btn-social google-btn">
-                  <img src="/images/icons/gmail.svg" alt="gmail" /> Gmail
-                </button>
-              </div>
 
               <button
                 type="submit"
                 className="btn btn--rounded btn--yellow btn-submit"
               >
-                Sign in
+                Ingresar
               </button>
 
               <p className="form__signup-link">
-                Not a member yet? <a href="/register">Sign up</a>
+                ¿No eres miembro? <a href="/register">Registrarse</a>
               </p>
-            </form> */}
+            </form>
           </div>
         </div>
       </section>

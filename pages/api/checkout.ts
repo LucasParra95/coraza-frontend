@@ -7,7 +7,7 @@ const client = new MercadoPagoConfig({ accessToken: process.env.NEXT_PUBLIC_MP_T
 const preference = new Preference(client);  
 
 
-const URL = "https://coraza-frontend.vercel.app/";
+const URL = "https://0c54-2800-810-5f6-69-3d3c-552a-812-9e0e.ngrok-free.app";
 
 // En "items" se puede usar directamente el producto, a fines de prueba tambien se puede hardcodear y poner valores
 // hasta 5 como minimo.
@@ -31,6 +31,14 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           failure: `${URL}`,
         },
         notification_url: `${URL}/api/notify`,
+        payment_methods: {
+          excluded_payment_types: [
+              {
+                id: "ticket"
+              }
+          ],
+          installments: 3
+        },
       };
   
       const response = await preference.create({body}).catch(console.log);

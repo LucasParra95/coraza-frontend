@@ -21,10 +21,7 @@ const CheckoutMercadoPago = ({ cartItems }: CartTypes) => {
               body: JSON.stringify({ products: cartItems })
           };
           const data = await fetch('/api/checkout', requestOptions)
-              .then(response => response.json())
-
-              console.log(data);
-              
+              .then(response => response.json())              
           setUrl(data!.sandbox_init_point)
               
         } catch (error) {
@@ -45,7 +42,7 @@ const CheckoutMercadoPago = ({ cartItems }: CartTypes) => {
                   </button>
               ) : (
                   <>
-                      <a href={url!} className="btn btn--rounded btn--yellow">Comprar ahora</a>
+                      <a href={url!} className="btn btn--rounded btn--yellow">Pagar ahora</a>
                   </>
               )
           }
