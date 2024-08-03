@@ -52,11 +52,13 @@ const Header = ({ isErrorPage }: HeaderType) => {
       return;
     }
 
-    fetcher();
     headerClass();
     window.onscroll = function () {
       headerClass();
     };
+  }, []);
+  useEffect(() => {
+    fetcher();
   }, []);
 
   const closeMenu = () => {
@@ -98,7 +100,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
               <div>Cargando categorías</div>
             ) : data.map( (cat: any) => {
               return (
-                <a href="">{cat.title}</a>
+                <a href="" key={cat._id}>{cat.title}</a>
               )
             } )
           }

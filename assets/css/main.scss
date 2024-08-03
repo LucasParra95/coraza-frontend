@@ -4,9 +4,11 @@
 @import "./partials/reset.css";
 
 // google fonts
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+//@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
-html,
+html{
+  font-family: var(--main-font)
+}
 body {
   overflow-x: hidden !important;
 }  
@@ -1121,16 +1123,18 @@ h5 {
   }
   .section-instagram-feed__img {
     width: calc(100% / 3);
+    aspect-ratio: 1;
     padding: 5px;
     background: #ffffff;
     align-items: center;
+    object-fit: cover;
   }
   .fadeout {
     position: absolute;
     width: 100%;
-    height: 46rem;
+    height: 36rem;
     //background-color: var(--background);
-    margin-top: -42rem;
+    margin-top: -28rem;
     margin-left: -8rem;
     background: linear-gradient(to bottom, transparent 0%, var(--background) 50%);
   }
