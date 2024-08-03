@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import Router from "next/router";
 import { wrapper } from "../store";
+//import { Poppins } from 'next/font/google'
 
 // types
 import type { AppProps } from "next/app";
@@ -17,6 +18,14 @@ import { SessionProvider } from "next-auth/react"
 import * as gtag from "./../utils/gtag";
 
 const isProduction = process.env.NODE_ENV === "production";
+
+ 
+// const poppins = Poppins({ 
+//     weight: "200",
+//     display: 'swap',
+//     variable: '--font-oxygen',
+//     subsets: ['latin'],
+// })
 
 // only events on production
 if (isProduction) {
