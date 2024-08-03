@@ -37,7 +37,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   };
   const fetcher = async() => {
     try {
-      const categories = await fetch('/api/categories')
+      const categories = await fetch('/api/categories', { cache: 'no-store' })
         .then((res) => res.json())
       
       setData(categories);
