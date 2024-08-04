@@ -15,7 +15,7 @@ export default async function (
         try {
           console.log("WORKING FINE");
           
-          const categories = await CategoryModel.find()
+          const categories = await CategoryModel.find().exec()
           console.log(categories);
           return res.status(200).json(categories)
         } catch (error) {
