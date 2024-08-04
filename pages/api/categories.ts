@@ -13,9 +13,16 @@ export default async function (
     switch (method) {
       case "GET":
         try {
-          console.log("WORKING FINE");
+          console.log("WORKING");
           
-          const categories = await CategoryModel.find().exec()
+          const categories = await CategoryModel.find({}, (error: any, data: any) => {
+            if (error) {
+              console.log(error);
+            }else{
+              console.log(data);
+              
+            }
+          })
           console.log(categories);
           return res.status(200).json(categories)
         } catch (error) {
