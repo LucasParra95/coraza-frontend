@@ -1,3 +1,3 @@
-//const dev = process.env.NODE_ENV !== "production";
+const dev = process.env.NODE_ENV !== "production";
 
-export const server = "https://coraza-frontend.vercel.app/";
+export const server = dev ? "https://mint-eagle-sure.ngrok-free.app/" : "https://coraza-frontend.vercel.app/";

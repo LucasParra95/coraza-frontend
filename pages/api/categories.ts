@@ -19,7 +19,6 @@ export default async function (
         } catch (error) {
           return res.status(400).json({ error: error });
         }
-        break;
     //   case "POST":
     //     try {
     //       const product = await Product.create(
@@ -31,8 +30,7 @@ export default async function (
     //     }
     //     break;
       default:
-        res.status(400).json({ success: false });
-        break;
+        return res.status(400).json({ success: false });
     }
   }
   
