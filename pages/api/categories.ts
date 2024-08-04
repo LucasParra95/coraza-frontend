@@ -15,14 +15,7 @@ export default async function (
         try {
           console.log("WORKING");
           
-          const categories = await Category.find({}, (error: any, data: any) => {
-            if (error) {
-              console.log(error);
-            }else{
-              console.log(data);
-              
-            }
-          })
+          const categories = await Category.find()
           console.log(categories);
           return res.status(200).json(categories)
         } catch (error) {
