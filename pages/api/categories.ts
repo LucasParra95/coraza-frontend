@@ -13,6 +13,8 @@ export default async function (
     switch (method) {
       case "GET":
         try {
+          console.log("WORKING FINE");
+          
           const categories = await CategoryModel.find()
           console.log(categories);
           return res.status(200).json(categories)
