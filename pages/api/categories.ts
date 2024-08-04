@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../lib/dbConnect";
-import  CategoryModel from "../../models/Category";
+import  Category from "../../models/Category";
 
 export default async function (
     req: NextApiRequest,
@@ -15,7 +15,7 @@ export default async function (
         try {
           console.log("WORKING");
           
-          const categories = await CategoryModel.find({}, (error: any, data: any) => {
+          const categories = await Category.find({}, (error: any, data: any) => {
             if (error) {
               console.log(error);
             }else{
