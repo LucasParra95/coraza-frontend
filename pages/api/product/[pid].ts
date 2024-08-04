@@ -32,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         punctuation: {},
         reviews: [{}],
       }    
-    return res.status(201).json(productsFormated)
+    return res.status(200).json(productsFormated)
   } catch (error) {
     return res.status(400).json({ error: error });
   }
