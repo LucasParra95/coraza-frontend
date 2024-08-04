@@ -10,6 +10,7 @@ import Content from '../../components/product-single/content';
 import Description from '../../components/product-single/description';
 //import Reviews from '../../components/product-single/reviews';
 import { server } from '../../utils/server'; 
+import axios from 'axios';
 
 // types
 import { ProductType } from 'types';
@@ -20,8 +21,10 @@ type ProductPageType = {
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const pid = query.pid;
-  const res = await fetch(`${server}/api/product/${pid}`, { cache: 'no-store' });
-  const product = await res.json();
+  // const res = await fetch(`${server}/api/product/${pid}`);
+  // const product = await res.json();
+
+  const product = await axios.get(`${server}/api/product/${pid}`).then(res => res.data)
 
   return {
     props: {

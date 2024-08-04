@@ -4,6 +4,7 @@ import useOnClickOutside from "use-onclickoutside";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { RootState } from "store";
+import axios from "axios";
 // import { DarkModeSwitch } from "react-toggle-dark-mode";
 // import { ThemeContext } from "components/context/theme-context";
 
@@ -37,8 +38,8 @@ const Header = ({ isErrorPage }: HeaderType) => {
   };
   const fetcher = async() => {
     try {
-      const categories = await fetch('/api/categories', { cache: 'no-store' })
-        .then((res) => res.json())
+      const categories = await axios.get('/api/categories')
+        .then((res) => res.data)
       
       setData(categories);
     } catch (error) {

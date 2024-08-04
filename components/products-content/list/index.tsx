@@ -2,9 +2,10 @@ import useSwr from 'swr';
 import ProductItem from '../../product-item';
 import ProductsLoading from './loading';
 import { ProductTypeList } from 'types';
+import axios from 'axios';
 
 const ProductsContent = () => {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const fetcher = (url: string) => axios.get(url).then((res) => res.data);
   const { data, error } = useSwr('/api/products', fetcher);
 
   if (error) return <div>Error al cargar los Productos</div>;
