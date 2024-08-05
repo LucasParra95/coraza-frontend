@@ -32,9 +32,9 @@
 // });
   
 // export default mongoose.models.Stock ||  mongoose.model<IStocks>("Stock", stockSchema);
-import { prop, getModelForClass } from "@typegoose/typegoose";
-import { assertion, getName } from "@typegoose/typegoose/lib/internal/utils";
+import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
 
+@modelOptions({ schemaOptions: { collection: 'stocks' } })
 export class Stock {
   @prop({  type: Number })
   public unico: number;
@@ -48,7 +48,6 @@ export class Stock {
   public xl: number;
 
 };
-assertion(getName(Stock)=== "Stock")
 const StockModel = getModelForClass(Stock);
 
 export default StockModel;

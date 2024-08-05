@@ -51,12 +51,12 @@ import mongoose from "mongoose";
   
 // export default mongoose.models.Product ||  mongoose.model<IProducts>("Product", productSchema);
 
-import { prop, getModelForClass } from "@typegoose/typegoose";
+import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
 import type { Ref } from "@typegoose/typegoose";
 import { Category } from "./Category";
 import { Stock } from "./Stock";
-import { assertion, getName } from "@typegoose/typegoose/lib/internal/utils";
 
+@modelOptions({ schemaOptions: { collection: 'products' } })
 class Product {
   @prop({  type: String })
   public title!: string;
@@ -75,7 +75,6 @@ class Product {
   @prop({  type: Boolean })
   public enabled!: boolean;
 };
-assertion(getName(Product)=== "Product")
 const ProductModel = getModelForClass(Product);
 
 export default ProductModel;
