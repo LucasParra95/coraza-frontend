@@ -24,6 +24,11 @@
 
 import { prop, getModelForClass } from "@typegoose/typegoose";
 import { assertion, getName } from "@typegoose/typegoose/lib/internal/utils";
+import { DeferredFunc } from "@typegoose/typegoose/lib/types";
+
+const error: DeferredFunc = (error:any) => {
+  console.log(error);
+}
 
 export class Category {
   @prop({  type: String })
@@ -33,7 +38,7 @@ export class Category {
   @prop({ type: () => [String] })
   public subcategories: string[];
 };
-assertion(getName(Category)=== "Category")
+assertion(getName(Category)=== "Category", error)
 const CategoryModel = getModelForClass(Category);
 
 export default CategoryModel;
