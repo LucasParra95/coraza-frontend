@@ -21,16 +21,16 @@ export default async function (
         } catch (error) {
           return res.status(400).json({ error: error });
         }
-    //   case "POST":
-    //     try {
-    //       const product = await Product.create(
-    //         req.body,
-    //       ); /* create a new model in the database */
-    //       res.status(201).json({ success: true, data: product });
-    //     } catch (error) {
-    //       res.status(400).json({ success: false });
-    //     }
-    //     break;
+      case "POST":
+        try {
+          const category = await Category.create(
+            req.body,
+          ); /* create a new model in the database */
+          res.status(201).json({ success: true, data: category });
+        } catch (error) {
+          res.status(400).json({ success: false });
+        }
+        break;
       default:
         return res.status(400).json({ success: false });
     }
