@@ -23,6 +23,7 @@
 // export default mongoose.models.Category ||  mongoose.model<ICategories>("Category", categorySchema);
 
 import { prop, getModelForClass } from "@typegoose/typegoose";
+import { assertion, getName } from "@typegoose/typegoose/lib/internal/utils";
 
 export class Category {
   @prop({  type: String })
@@ -32,7 +33,7 @@ export class Category {
   @prop({ type: () => [String] })
   public subcategories: string[];
 };
-
+assertion(getName(Category)=== "Category")
 const CategoryModel = getModelForClass(Category);
 
 export default CategoryModel;
