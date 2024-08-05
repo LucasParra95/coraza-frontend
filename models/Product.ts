@@ -55,6 +55,7 @@ import { prop, getModelForClass } from "@typegoose/typegoose";
 import type { Ref } from "@typegoose/typegoose";
 import { Category } from "./Category";
 import { Stock } from "./Stock";
+import { assertion, getName } from "@typegoose/typegoose/lib/internal/utils";
 
 class Product {
   @prop({  type: String })
@@ -74,7 +75,7 @@ class Product {
   @prop({  type: Boolean })
   public enabled!: boolean;
 };
-
+assertion(getName(Product)=== "Product")
 const ProductModel = getModelForClass(Product);
 
 export default ProductModel;

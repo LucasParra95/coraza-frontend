@@ -33,6 +33,7 @@
   
 // export default mongoose.models.Stock ||  mongoose.model<IStocks>("Stock", stockSchema);
 import { prop, getModelForClass } from "@typegoose/typegoose";
+import { assertion, getName } from "@typegoose/typegoose/lib/internal/utils";
 
 export class Stock {
   @prop({  type: Number })
@@ -47,7 +48,7 @@ export class Stock {
   public xl: number;
 
 };
-
+assertion(getName(Stock)=== "Stock")
 const StockModel = getModelForClass(Stock);
 
 export default StockModel;
