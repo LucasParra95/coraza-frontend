@@ -100,7 +100,7 @@ useEffect(() => {
         const options = {
           method: 'GET',
           headers: {
-            'x-rapidapi-key': '6423d1ed28mshd6feb6fa03bfe6ep1ebf9fjsn255ad6f3d75a',
+            'x-rapidapi-key': process.env.NEXT_PUBLIC_API_KEY,
             'x-rapidapi-host': 'correo-argentino1.p.rapidapi.com'
           }
         };
