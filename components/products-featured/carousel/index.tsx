@@ -1,8 +1,9 @@
 import ProductItem from "./../../product-item";
-import { ProductTypeList } from "types";
+import { ProductTypeList } from "../../../types";
 
 // import Swiper core and required components
 import { Swiper, SwiperSlide } from "swiper/react";
+//import { EffectCoverflow, Pagination } from 'swiper/modules';
 import { useEffect, useState } from "react";
 
 type ProductsCarouselType = {
@@ -10,9 +11,9 @@ type ProductsCarouselType = {
 };
 
 const ProductsCarousel = ({ products }: ProductsCarouselType) => {
-  const [slidesPerView, setSlidesPerView] = useState(2);
-  const [centeredSlides, setCenteredSlides] = useState(false);
-  const [spaceBetween, setSpaceBetween] = useState(30);
+  const [slidesPerView, setSlidesPerView] = useState(1);
+  const [centeredSlides, setCenteredSlides] = useState(true);
+  const [spaceBetween, setSpaceBetween] = useState(1);
 
   useEffect(() => {
     updateWindowSize();
@@ -21,12 +22,12 @@ const ProductsCarousel = ({ products }: ProductsCarouselType) => {
   }, []);
 
   function updateWindowSize() {
-    setSlidesPerView(1);
-    setSpaceBetween(30);
-    setCenteredSlides(true);
+    // setSlidesPerView(1);
+    // setSpaceBetween(30);
+    // setCenteredSlides(true);
 
     if (window.innerWidth > 768) {
-      setSlidesPerView(2);
+      setSlidesPerView(1);
       setSpaceBetween(40);
       setCenteredSlides(false);
     }
@@ -43,14 +44,14 @@ const ProductsCarousel = ({ products }: ProductsCarouselType) => {
     <div className="products-carousel">
       <Swiper
         spaceBetween={spaceBetween}
-        loop={true}
+        loop={false}
         centeredSlides={centeredSlides}
         watchOverflow={true}
         slidesPerView={slidesPerView}
         className="swiper-wrapper"
       >
         {products.map((item) => (
-          <SwiperSlide key={item.id}>
+          <SwiperSlide key={item.id} className="swiper-slide">
             <ProductItem
               id={item.id}
               name={item.name}

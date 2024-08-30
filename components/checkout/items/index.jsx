@@ -14,7 +14,7 @@ const CheckoutItems = () => {
 
             <div className="checkout-item__data">
               <h3>{item.name}</h3>
-              <span>#{item.id}</span>
+              <span>x {item.count} unidades</span>
             </div>
           </div>
           <h3>${item.price}</h3>

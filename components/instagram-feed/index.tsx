@@ -3,21 +3,22 @@ import { useEffect, useState } from 'react';
 const InstagramFeed = () => {
   const [postsArray, setPostsArray] = useState<any[]>([]);
   const [instagramProfile, setInstagramProfile] = useState<any>({});
+
+  const access_token = process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN;
+  async function fetchMedia() {
+    await fetch(`https://graph.instagram.com/me/media?fields=media_url,media_type,thumbnail_url&access_token=${access_token}`)
+      .then(response => response.json())
+      .then(res => setPostsArray(res.data.slice(0,9)));
+    };
+  async function fetchProfileData() {
+    await fetch(`https://graph.instagram.com/me?fields=id,media_count,username&access_token=${access_token}`, {
+      mode: "cors"
+    })
+      .then(response =>response.json())
+      .then(res => setInstagramProfile(res));
+    }; 
   
   useEffect( () => {
-    const access_token = process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN;
-    async function fetchMedia() {
-      await fetch(`https://graph.instagram.com/me/media?fields=media_url,media_type,thumbnail_url&access_token=${access_token}`)
-        .then(response => response.json())
-        .then(res => setPostsArray(res.data.slice(0,9)));
-      };
-    async function fetchProfileData() {
-      await fetch(`https://graph.instagram.com/me?fields=id,media_count,username&access_token=${access_token}`, {
-        mode: "cors"
-      })
-        .then(response =>response.json())
-        .then(res => setInstagramProfile(res));
-      }; 
       fetchMedia();      
       fetchProfileData();
   },[]);
@@ -38,7 +39,7 @@ const InstagramFeed = () => {
         onClick= { ()=> {
           window.open("https://www.instagram.com/somoscoraza/")
         } }>
-          <div className="container">
+          <div className="container-instagram">
             <div className='title-instagram'>
               <p>Seguinos en</p>
               <img src="/images/logos/instagram-logo.svg" alt="Not found" />
@@ -55,7 +56,7 @@ const InstagramFeed = () => {
                       <p>{instagramProfile.username}</p>
                       <button className='follow-button'>Seguir</button>
                     </div>
-                    <div className='profile-data'>
+                    <div className='profile-data-numbers'>
                       <div className='element'>
                         <a><p>{instagramProfile.media_count}</p> publicaciones</a>
                       </div>

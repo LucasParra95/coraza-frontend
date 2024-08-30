@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { ProductStoreType } from '../../types/index';
+import { useSelector } from "react-redux";
 
-interface CartTypes {
-  cartItems: ProductStoreType[]
-}
+//import { ProductStoreType } from '../../types/index';
 
-const CheckoutMercadoPago = ({ cartItems }: CartTypes) => {
-  const [url, setUrl] = useState<null | string>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+
+
+const CheckoutMercadoPago = ({dataEnvio}) => {
+    const [url, setUrl] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const { cartItems } = useSelector((state) => state.cart);
+
 
   useEffect(() => {
       const generateLink = async () => {
@@ -20,9 +22,10 @@ const CheckoutMercadoPago = ({ cartItems }: CartTypes) => {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ products: cartItems })
           };
+          
           const data = await fetch('/api/checkout', requestOptions)
               .then(response => response.json())              
-          setUrl(data!.sandbox_init_point)
+          setUrl(data.sandbox_init_point)
               
         } catch (error) {
           console.log(error);    
@@ -33,6 +36,9 @@ const CheckoutMercadoPago = ({ cartItems }: CartTypes) => {
       generateLink();
   }, [cartItems])
 
+  console.log(dataEnvio);
+  
+
   return (
       <div>
           {
@@ -41,9 +47,15 @@ const CheckoutMercadoPago = ({ cartItems }: CartTypes) => {
                       cargando
                   </button>
               ) : (
+                dataEnvio ? (
                   <>
-                      <a href={url!} className="btn btn--rounded btn--yellow">Pagar ahora</a>
+                      <a href={url} className="btn btn--rounded btn--yellow">Pagar ahora</a>
                   </>
+                ) : (
+                    <>
+                      <a className="btn btn--rounded btn--yellow">Ingrese los datos de envío</a>
+                    </>
+                )
               )
           }
       </div>
