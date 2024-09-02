@@ -91,7 +91,7 @@ useEffect(() => {
   });
 
   const [dataEnvio, setDataEnvio] = useState();
-
+  const keyCorreo = process.env.NEXT_PUBLIC_CORREO_API_KEY
   
   useEffect(() => {
     if (cp !== undefined&& province !== undefined) {
@@ -100,7 +100,7 @@ useEffect(() => {
         const options = {
           method: 'GET',
           headers: {
-            'x-rapidapi-key': process.env.CORREO_API_KEY,
+            'x-rapidapi-key': keyCorreo,
             'x-rapidapi-host': 'correo-argentino1.p.rapidapi.com'
           }
         };
