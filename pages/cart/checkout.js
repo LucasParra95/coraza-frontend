@@ -6,6 +6,7 @@ import CheckoutItems from "../../components/checkout/items";
 import { RootState } from "store";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 
 const CheckoutMercadoPago = dynamic(() => import("./../../components/checkout-button/index"), {
@@ -15,6 +16,7 @@ const CheckoutMercadoPago = dynamic(() => import("./../../components/checkout-bu
 
 const CheckoutPage = () => {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [errors, setErrors] = useState({
     nombre: "Este campo no puede estar vacio",
@@ -131,20 +133,18 @@ useEffect(() => {
 
           <div className="checkout-content">
             <div className="checkout__col-6">
-              {/* <div className="checkout__btns">
+
+            {!session &&
+              <div className="checkout__btns">
+                <h3>Ingresa para completar tus datos automaticamente:</h3>
                 <button
                   className="btn btn--rounded btn--yellow"
                   onClick={() => router.push("/login")}
                 >
                   Ingresar
                 </button>
-                <button
-                  className="btn btn--rounded btn--border"
-                  onClick={() => router.push("/register")}
-                >
-                  Registrarse
-                </button>
-              </div> */}
+              </div>
+            }
 
               <div className="block">
                 <h3 className="block__title">Informacíon de Envío:</h3>
@@ -380,7 +380,11 @@ useEffect(() => {
               }
                 <div className="checkout-total">
                   <p>Precio total:</p>
-                  <h3>${(priceTotal+dataEnvio?.aSucursal).toFixed(2) }</h3>
+                  {dataEnvio ? (
+                    <h3>${(priceTotal+dataEnvio?.aSucursal).toFixed(2) }</h3>
+                  ):(
+                    <h3>Calculando envío...</h3>
+                  )}
                 </div>
               </div>
             </div>
@@ -394,7 +398,7 @@ useEffect(() => {
               <a href="/products" type="button" className="btn btn--rounded btn--border">
                 Continuar comprando
               </a>
-              <CheckoutMercadoPago dataEnvio={dataEnvio}/>
+              <CheckoutMercadoPago errors={errors} dataEnvio={dataEnvio}/>
             </div>
           </div>
         </div>

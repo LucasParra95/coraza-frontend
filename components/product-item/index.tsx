@@ -8,10 +8,13 @@ import { ProductTypeList } from 'types';
 const ProductItem = ({ discount, images, id, name, price, currentPrice }: ProductTypeList) => {
   const dispatch = useDispatch();
   const { favProducts } = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.user)
 
   const isFavourite = some(favProducts, productId => productId === id);
 
+  console.log(user);
   const toggleFav = () => {
+    
     dispatch(toggleFavProduct(
       { 
         id,

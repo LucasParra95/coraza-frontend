@@ -101,7 +101,8 @@ export default async function (req: NextRequest, res : NextApiResponse) {
       //     'Content-Type': 'application/json',
       //   },
       // });
-      res.status(500).json({ message: "Method not allowed" })
+      console.log(req);
+      res.status(200).json({ message: "Method not allowed" })
       break;
   }
 }

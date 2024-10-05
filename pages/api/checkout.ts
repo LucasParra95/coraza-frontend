@@ -2,8 +2,8 @@ import { MercadoPagoConfig, Preference } from 'mercadopago';
 import { NextApiRequest, NextApiResponse } from "next";
 import { PreferenceRequest } from 'mercadopago/dist/clients/preference/commonTypes';
 
-
-const client = new MercadoPagoConfig({ accessToken: process.env.NEXT_PUBLIC_MP_TOKEN!, options: { timeout: 5000, idempotencyKey: 'abc' } });
+const accessToken = process.env.NEXT_PUBLIC_MP_TOKEN!;
+const client = new MercadoPagoConfig({ accessToken: accessToken, options: { idempotencyKey: 'abc' } });
 const preference = new Preference(client);  
 
 
@@ -15,10 +15,19 @@ const URL = "https://mint-eagle-sure.ngrok-free.app";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const products = req.body.products
+    const products = req.body.products;
+    
     try {
       const body: PreferenceRequest = {
         items: products.map( (item: any) => {
+          if (item.aSucursal) {
+            return {
+              id: "envio",
+              title: "Costo de envío",
+              unit_price: item.aSucursal,
+              quantity: 1
+            }
+          }
           return {
             id: item.id,
             title: item.name,
@@ -28,10 +37,10 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         } ) ,
         auto_return: "approved",
         back_urls: {
-          success: `${URL}`,
+          success: `${URL}/cart/`,
           failure: `${URL}`,
         },
-        notification_url: `${URL}/api/notify`,
+        notification_url: `${URL}/api/payments`,
         payment_methods: {
           excluded_payment_types: [
               {

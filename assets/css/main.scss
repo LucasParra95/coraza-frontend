@@ -860,7 +860,7 @@ h5 {
 }
 
 .product-item {
-  width: 5rem;
+  width: 10rem;
   @include breakpoint(phone) {
     width: calc(100% / 2);
   }
@@ -1091,6 +1091,7 @@ h5 {
       font-size: 14px;
       padding: 7px 16px !important;
       font-weight: 600;
+      margin: 1rem;
     }
     .profile {
       display: flex;
@@ -1110,7 +1111,6 @@ h5 {
       justify-content: space-between;
     }
     .profile-data-numbers {
-      width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -1120,11 +1120,14 @@ h5 {
       @include breakpoint(phone) {
         align-items: center;
         flex-direction: row;
+        margin-right: 1rem;
       }
     }
     .logo {
       width: calc(100%/3);
       scale: 1.5;
+      aspect-ratio: 1;
+      object-fit: contain;
       // @include breakpoint(phone) {
       //   font-size: 29px;
       // }
@@ -1177,7 +1180,7 @@ h5 {
   }
   .section-instagram-feed__img {
     width: calc(100% / 3);
-    aspect-ratio: 1;
+    aspect-ratio: 0.8;
     padding: 5px;
     background: #ffffff;
     align-items: center;
@@ -3128,4 +3131,153 @@ h5 {
       background-color: red;
     }
   }
+}
+
+.account-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  button {
+    border: 2px solid var(--color-gray);
+  }
+}
+
+.tabs ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--color-orange);
+  @include breakpoint(phone) {
+    flex-direction: row;
+  }
+}
+
+.tabs li {
+  margin-right: 1rem;
+  width: 80%;
+}
+
+.tabs button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #333;
+}
+
+.tabs button.active {
+  border-bottom: 2px solid var(--color-gray);
+  background-color: var(--color-orange);
+}
+
+.tabs button svg {
+  margin-right: 0.5rem;
+}
+
+.tab-content {
+  background-color: var(--color-white);
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-right: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-orange);
+  color: #333;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--slider-track);
+  color: var(--color-white);
+}
+
+.favorites-list,
+.address-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.favorites-list li,
+.address-list li {
+  margin-bottom: 0.5rem;
+}
+
+.orders-table {
+  border-collapse: collapse;
+}
+
+.orders-table th,
+.orders-table td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.edit-button {
+  margin-left: 1rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.add-address {
+  margin-top: 1rem;
+}
 }

@@ -57,7 +57,7 @@ import { Category } from "./Category";
 import { Stock } from "./Stock";
 
 @modelOptions({ schemaOptions: { collection: 'products' } })
-class Product {
+export class Product {
   @prop({  type: String })
   public title!: string;
   @prop({  type: Number })

@@ -64,7 +64,7 @@ const ForgotPassword = () => {
                   </p>
                 )}
               </div>
-
+{/* 
               <div className="form__input-row">
                 <input
                   className="form__input"
@@ -77,7 +77,7 @@ const ForgotPassword = () => {
                     Este campo es obligatorio
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <button
                 type="submit"

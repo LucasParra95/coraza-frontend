@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 
 
-const CheckoutMercadoPago = ({dataEnvio}) => {
+const CheckoutMercadoPago = ({errors,  dataEnvio}) => {
     const [url, setUrl] = useState(null);
     const [loading, setLoading] = useState(true);
     const { cartItems } = useSelector((state) => state.cart);
@@ -20,7 +20,7 @@ const CheckoutMercadoPago = ({dataEnvio}) => {
           const requestOptions = {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ products: cartItems })
+              body: JSON.stringify({ products: [...cartItems, dataEnvio] })
           };
           
           const data = await fetch('/api/checkout', requestOptions)
@@ -32,11 +32,10 @@ const CheckoutMercadoPago = ({dataEnvio}) => {
         }
         setLoading(false);
       };
-
-      generateLink();
-  }, [cartItems])
-
-  console.log(dataEnvio);
+      if (dataEnvio) {
+        generateLink();
+      }
+  }, [dataEnvio])
   
 
   return (
@@ -47,7 +46,14 @@ const CheckoutMercadoPago = ({dataEnvio}) => {
                       cargando
                   </button>
               ) : (
-                dataEnvio ? (
+                ( errors.nombre === "" & 
+                  errors.apellido === "" & 
+                  errors.email === "" &
+                  errors.provincia === "" &
+                  errors.ciudad === "" &
+                  errors.cp === "" &
+                  errors.direccion === "" &
+                  errors.telefono === "") ? (
                   <>
                       <a href={url} className="btn btn--rounded btn--yellow">Pagar ahora</a>
                   </>

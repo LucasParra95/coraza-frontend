@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import useOnClickOutside from "use-onclickoutside";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import { RootState } from "store";
 import axios from "axios";
 // import { DarkModeSwitch } from "react-toggle-dark-mode";
@@ -14,6 +15,7 @@ type HeaderType = {
 
 const Header = ({ isErrorPage }: HeaderType) => {
   const router = useRouter();
+  const { data: session, status } = useSession()
   const { cartItems } = useSelector((state: RootState) => state.cart);
   const arrayPaths = ["/"];
   
@@ -149,11 +151,30 @@ const Header = ({ isErrorPage }: HeaderType) => {
               )}
             </button>
           </Link>
-          <Link href="/login" legacyBehavior>
-            <button className="site-header__btn-avatar">
+
+          {
+            status === "loading" ? (
+              <button className="site-header__btn-avatar">
               <i className="icon-avatar"></i>
             </button>
-          </Link>
+            ) :
+            status === "unauthenticated" ? (
+              <Link href="/login" legacyBehavior>
+                <button className="site-header__btn-avatar">
+                  <i className="icon-avatar"></i>
+                </button>
+              </Link>
+            ) : (
+              <Link href="/account" legacyBehavior>
+              <button className="site-header__btn-avatar">
+                <i className="icon-avatar"></i>
+              </button>
+            </Link>
+            )
+          }
+
+
+
           <button
             onClick={() => setMenuOpen(true)}
             className="site-header__btn-menu"

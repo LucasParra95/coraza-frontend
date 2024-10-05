@@ -55,6 +55,7 @@
   },
   "exclude": [],
   "include": [
-    "pages"
+    "pages",
+    "types/next-auth.d.ts"
   ]
 }
