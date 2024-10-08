@@ -22,16 +22,45 @@ const Content = ({ product }: ProductContent) => {
   const onColorSet = (e: string) => setColor(e);
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => setItemSize(e.target.value);
 
+  const user = useSelector((state: RootState) => state.user)
   const { favProducts } = useSelector((state: RootState) => state.user);
   const isFavourite = some(favProducts, productId => productId === product.id);
 
-  const toggleFav = () => {
-    dispatch(toggleFavProduct(
-      { 
-        id: product.id,
+  // const toggleFav = () => {
+  //   dispatch(toggleFavProduct(
+  //     { 
+  //       id: product.id,
+  //     }
+  //   ))
+  // }
+
+    const handleFavorites = async() => {
+    dispatch(toggleFavProduct({ id: product.id }))
+    try {
+      // Realizar la solicitud PUT para actualizar las direcciones en la base de datos
+      const response = await fetch("/api/users", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.user!.id, // ID del usuario para identificarlo en la base de datos
+          favorites: product.id, // Las direcciones actualizadas
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        // Actualizar la sesión localmente
+        dispatch(toggleFavProduct({ id: product.id }))
+        console.error("Error actualizando los favoritos:", data);
       }
-    ))
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+    }
   }
+
 
   const addToCart = () => {
     const productToSave: ProductStoreType = { 
@@ -110,7 +139,7 @@ const Content = ({ product }: ProductContent) => {
             </div>
             
             <button type="submit" onClick={() => addToCart()} className="btn btn--rounded btn--yellow">Add to cart</button>
-            <button type="button" onClick={toggleFav} className={`btn-heart ${isFavourite ? 'btn-heart--active' : ''}`}><i className="icon-heart"></i></button>
+            <button type="button" onClick={handleFavorites} className={`btn-heart ${isFavourite ? 'btn-heart--active' : ''}`}><i className="icon-heart"></i></button>
           </div>
         </div>
       </div>

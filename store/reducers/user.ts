@@ -1,32 +1,27 @@
 import { remove } from 'lodash';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-type ProductType = {
+type UserType = {
   id: string;
   name: string;
-  thumb: string;
-  price: string;
-  count: number;
-  color: string;
-  size: string;
-}
+  email: string;
+  favorites: string[];
+};
+
 
 type ToggleFavType = {
   id: string;
-}
+};
 
 interface UserSliceTypes {
-  user: any;
-  favProducts: any;
+  user: UserType | null; // Puedes definir el tipo de datos del usuario más específicamente si tienes un modelo concreto
+  favProducts: string[]; // Almacena solo los IDs de los productos favoritos
 }
 
-const initialState = {
-  user: {
-    name: 'Lucas Parra',
-  },
+const initialState: UserSliceTypes = {
+  user: null, // El usuario comienza como null o vacío
   favProducts: [],
-} as UserSliceTypes
+};
 
 const userSlice = createSlice({
   name: 'user',
@@ -35,35 +30,32 @@ const userSlice = createSlice({
     toggleFavProduct(state, action: PayloadAction<ToggleFavType>) {
       const index = state.favProducts.includes(action.payload.id);
 
-      if(!index) {
+      if (!index) {
         state.favProducts.push(action.payload.id);
-
+        
         return;
       }
 
-      remove(state.favProducts, id => id === action.payload.id);
+      remove(state.favProducts, (id) => id === action.payload.id);
     },
-    setUserLogged(state, action: PayloadAction<ProductType>) {
-      const index = state.favProducts.includes(action.payload.id);
-
-      if(!index) {
-        state.favProducts.push(action.payload.id);
-
-        return {
-          ...state,
-          favProducts: state.favProducts
-        };
-      }
-
-      remove(state.favProducts, id => id === action.payload.id);
+    setUserLogged(state, action: PayloadAction<any>) {
+      const  user = action.payload;
       
       return {
         ...state,
-        favProducts: state.favProducts
+        user, // Almacena los datos completos del usuario en el estado
+        favProducts: user.favorites.map((prod: any) => prod._id) || state.favProducts,
+      };
+    },
+    logout(state) {
+      return {
+        ...state,
+        user: null, // Al cerrar sesión, se borra el usuario
+        favProducts: [], // También se limpian los productos favoritos
       };
     },
   },
-})
+});
 
-export const { toggleFavProduct, setUserLogged } = userSlice.actions
-export default userSlice.reducer
+export const { toggleFavProduct, setUserLogged, logout } = userSlice.actions;
+export default userSlice.reducer;

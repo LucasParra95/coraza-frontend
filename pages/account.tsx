@@ -5,6 +5,9 @@ import { useSession, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { setUserLogged } from '../store/reducers/user';
+
 
 const UserIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -36,6 +39,7 @@ const MapPinIcon = () => (
 
 export default function Account() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { data: session, status } = useSession()
 
   const [activeTab, setActiveTab] = useState("personal")
@@ -57,7 +61,13 @@ export default function Account() {
     if (status === "unauthenticated") {
       router.push("/login"); // Redirigir al inicio de sesión si no está autenticado
     }
-  }, [status]);
+    if (status === "authenticated") {
+      console.log("SESSION", session);
+      
+      dispatch(setUserLogged(session.user));
+    }
+    
+  }, [status, session]);
   useEffect(() => {
     console.log("Session data:", session);
   }, [session]);

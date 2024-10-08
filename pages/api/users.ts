@@ -56,7 +56,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
           // Verificar si el usuario existe
           const user = await UserModel.findById(userId)
-          .populate('favorites');
           if (!user) {
             return res.status(404).json({ success: false, message: "Usuario no encontrado" });
           }
@@ -79,7 +78,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           }
 
           if(favorites) {
-            user.favorites = favorites
+            user.favorites.includes(favorites) ?
+            user.favorites = user.favorites.filter((prod) => prod._id.toString() !== favorites) :
+            user.favorites = [...user.favorites, favorites];
+
           }
   
           // Guardar los cambios en la base de datos

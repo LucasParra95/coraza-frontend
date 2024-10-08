@@ -12,20 +12,37 @@ const ProductItem = ({ discount, images, id, name, price, currentPrice }: Produc
 
   const isFavourite = some(favProducts, productId => productId === id);
 
-  console.log(user);
-  const toggleFav = () => {
-    
-    dispatch(toggleFavProduct(
-      { 
-        id,
+  const handleFavorites = async() => {
+    dispatch(toggleFavProduct({ id }))
+    try {
+      // Realizar la solicitud PUT para actualizar las direcciones en la base de datos
+      const response = await fetch("/api/users", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.user!.id, // ID del usuario para identificarlo en la base de datos
+          favorites: id, // Las direcciones actualizadas
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        // Actualizar la sesión localmente
+        dispatch(toggleFavProduct({ id }))
+        console.error("Error actualizando los favoritos:", data);
       }
-    ))
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+    }
   }
 
   return (
     <div className="product-item">
       <div className="product__image">
-        <button type="button" onClick={toggleFav} className={`btn-heart ${isFavourite ? 'btn-heart--active' : ''}`}><i className="icon-heart"></i></button>
+        <button type="button" onClick={handleFavorites} className={`btn-heart ${isFavourite ? 'btn-heart--active' : ''}`}><i className="icon-heart"></i></button>
 
         <Link href={`/product/${id}`}>
 
