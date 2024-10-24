@@ -15,7 +15,7 @@ type HeaderType = {
 
 const Header = ({ isErrorPage }: HeaderType) => {
   const router = useRouter();
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const { cartItems } = useSelector((state: RootState) => state.cart);
   const arrayPaths = ["/"];
   
