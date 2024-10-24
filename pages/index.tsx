@@ -4,8 +4,17 @@ import ProductsFeatured from "../components/products-featured";
 import InstagramFeed from "../components/instagram-feed";
 import Footer from "../components/footer";
 import Subscribe from "../components/subscribe";
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchProducts } from '../store/reducers/products';
 
 const IndexPage = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
   return (
     <Layout>
       <PageIntro />

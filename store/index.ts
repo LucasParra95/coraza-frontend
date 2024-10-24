@@ -1,61 +1,61 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit'
-import { createWrapper } from 'next-redux-wrapper';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { createWrapper, MakeStore } from 'next-redux-wrapper'; // Importa MakeStore
 import cartReducer from './reducers/cart';
 import userReducer from './reducers/user';
-import storage from 'redux-persist/lib/storage'
-import {
-  persistStore,
-  persistReducer,
-} from 'redux-persist'
+import productsReducer from './reducers/products';
+import storage from 'redux-persist/lib/storage';
+import { persistStore, persistReducer } from 'redux-persist';
 
-//COMBINING ALL REDUCERS
-const reducer = {
-  cart: cartReducer,
-  user: userReducer
-}
-
+// COMBINING ALL REDUCERS
 const rootReducer = combineReducers({
   cart: cartReducer,
   user: userReducer,
-})
-
-let store = configureStore({ 
-  reducer,
+  products: productsReducer,
 });
 
-const makeStore = ({ isServer }: { isServer: Boolean }) => {
+// Persist config para redux-persist
+const persistConfig = {
+  key: 'shoppingcart',
+  whitelist: ['cart', 'user', 'products'],
+  storage,
+};
+
+// Reducer persistido
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const makeStore: MakeStore = () => {
+  const isServer = typeof window === 'undefined';
+
   if (isServer) {
-    //If it's on server side, create a store
-    return store = configureStore({ 
-      reducer,
+    // Si está en el servidor, crear la store sin persistencia
+    return configureStore({
+      reducer: rootReducer,
     });
   } else {
-    //If it's on client side, create a store which will persist
-    const persistConfig = {
-      key: "shoppingcart",
-      whitelist: ["cart", "user"], // only counter will be persisted, add other reducers if needed
-      storage, // if needed, use a safer storage
-    };
-
-    const persistedReducer = persistReducer(persistConfig, rootReducer); // Create a new reducer with our existing reducer
-
-    store = configureStore({ 
+    // Si está en el cliente, crear la store con persistencia
+    const store = configureStore({
       reducer: persistedReducer,
-    }); // Creating the store again
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+          serializableCheck: {
+            ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+          },
+        }),
+    });
 
+    // Crear el persistor en el cliente
     // @ts-ignore:next-line
-    store.__persistor = persistStore(store); // This creates a persistor object & push that persisted object to .__persistor, so that we can avail the persistability feature
+    store.__persistor = persistStore(store);
 
     return store;
   }
 };
 
-// export an assembled wrapper
-// @ts-ignore:next-line
-export const wrapper = createWrapper(makeStore, {debug: true});
+// Infer the `RootState` type from the root reducer
+export type RootState = ReturnType<typeof rootReducer>;
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>
+// Infer `AppDispatch` type from the store itself
+export type AppDispatch = ReturnType<typeof makeStore>['dispatch'];
 
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+// Create the wrapper for next-redux-wrapper
+export const wrapper = createWrapper<RootState>(makeStore, { debug: true });

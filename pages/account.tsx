@@ -7,6 +7,9 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { setUserLogged } from '../store/reducers/user';
+import { useSelector } from "react-redux";
+import { RootState } from 'store';
+import ProductItem from "components/product-item";
 
 
 const UserIcon = () => (
@@ -40,7 +43,13 @@ const MapPinIcon = () => (
 export default function Account() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
+  const { favProducts } = useSelector((state: RootState) => state.user);
+  const  allProducts  = useSelector((state: RootState) => state.products.products);
+
+  const favsData = allProducts.filter((prod) => 
+    favProducts.includes(prod.id)
+  )
 
   const [activeTab, setActiveTab] = useState("personal")
   const [showAddressDialog, setShowAddressDialog] = useState(false); // Estado para manejar el cuadro de diálogo
@@ -58,19 +67,17 @@ export default function Account() {
     { id: "addresses", label: "Direcciones", icon: MapPinIcon },
   ]
   useEffect(() => {
+    if (status === "loading") {
+      // Mientras la sesión se está verificando, no hacer nada.
+      return;
+    }
     if (status === "unauthenticated") {
-      router.push("/login"); // Redirigir al inicio de sesión si no está autenticado
+      router.replace("/login"); // Redirigir al inicio de sesión si no está autenticado
     }
-    if (status === "authenticated") {
-      console.log("SESSION", session);
-      
+    if (status === "authenticated") {     
       dispatch(setUserLogged(session.user));
-    }
-    
+    }  
   }, [status, session]);
-  useEffect(() => {
-    console.log("Session data:", session);
-  }, [session]);
 
   const handleAddAddress = async () => {
 
@@ -156,9 +163,31 @@ export default function Account() {
             <h2>Productos Favoritos</h2>
             <p>Aquí puedes ver y gestionar tus productos favoritos.</p>
             <ul className="favorites-list">
-              <li>Producto Favorito 1</li>
-              <li>Producto Favorito 2</li>
-              <li>Producto Favorito 3</li>
+              {/* {favsData.map((prod) =>{
+                return (
+                  <li><ProductItem/></ProductItem></li>
+                )
+              })} */}
+
+{favsData &&
+        <section className="products-list">
+          {favsData.map((item)  => {
+            console.log(item);
+            
+            return(
+            <ProductItem 
+              id={item!.id} 
+              name={item!.name}
+              price={item!.price}
+              color={item!.color}
+              currentPrice={item!.currentPrice}
+              key={item!.id}
+              images={item!.images} 
+            />
+          )})}
+        </section>
+      }
+
             </ul>
           </div>
         )}
