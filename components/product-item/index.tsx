@@ -5,9 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavProduct } from 'store/reducers/user';
 import { RootState } from 'store';
 import { ProductTypeList } from 'types';
+import { useRouter } from "next/router";
 
 const ProductItem = ({ discount, images, id, name, price, currentPrice }: ProductTypeList) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { favProducts } = useSelector((state: RootState) => state.user);
   const user = useSelector((state: RootState) => state.user)
   const [showAlert, setShowAlert] = useState(false)
@@ -62,7 +64,7 @@ const ProductItem = ({ discount, images, id, name, price, currentPrice }: Produc
             </div>
             <div className='btn-container'>
               <button className="close-button" onClick={handleClose}>Cerrar</button>
-              <button className='login-button'>Iniciar sesión</button>
+              <button className='login-button' onClick={()=>router.push("/login")}>Iniciar sesión</button>
             </div>
           </div>
         </div>

@@ -129,7 +129,7 @@ const Content = ({ product }: ProductContent) => {
               </button>
             </div>
             
-            <button type="submit" onClick={() => addToCart()} className="btn btn--rounded btn--yellow">Add to cart</button>
+            <button type="submit" onClick={() => addToCart()} className="btn btn--rounded btn--yellow">Añadir al carrito</button>
             <button type="button" onClick={handleFavorites} className={`btn-heart ${isFavourite ? 'btn-heart--active' : ''}`}><i className="icon-heart"></i></button>
           </div>
         </div>
