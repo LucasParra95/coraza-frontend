@@ -24,7 +24,7 @@ console.log("id", paymentId);
                 console.log(data);
                 
             }
-            //console.log(response);
+            console.log("PAYMENT ID", response);
             
         }else if(req.body.topic === 'merchant_order') {
           const response = await fetch(`${req.body.resource}`, {
@@ -34,7 +34,7 @@ console.log("id", paymentId);
             }
           }
         )
-        console.log(response);
+        console.log("MERCHANT ORDER", response);
         }
         return res.status(200).json({success: true});
     } catch (error) {

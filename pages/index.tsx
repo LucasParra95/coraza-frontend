@@ -1,7 +1,7 @@
 import Layout from "../layouts/Main";
 import PageIntro from "../components/page-intro";
 import ProductsFeatured from "../components/products-featured";
-import InstagramFeed from "../components/instagram-feed";
+// import InstagramFeed from "../components/instagram-feed";
 import Footer from "../components/footer";
 import Subscribe from "../components/subscribe";
 import { useEffect } from 'react';
@@ -113,7 +113,7 @@ const IndexPage = () => {
 
       <ProductsFeatured />
 
-      <InstagramFeed />
+      {/* <InstagramFeed /> */}
       <Subscribe />
       <Footer />
     </Layout>

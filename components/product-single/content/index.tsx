@@ -26,14 +26,6 @@ const Content = ({ product }: ProductContent) => {
   const { favProducts } = useSelector((state: RootState) => state.user);
   const isFavourite = some(favProducts, productId => productId === product.id);
 
-  // const toggleFav = () => {
-  //   dispatch(toggleFavProduct(
-  //     { 
-  //       id: product.id,
-  //     }
-  //   ))
-  // }
-
     const handleFavorites = async() => {
     dispatch(toggleFavProduct({ id: product.id }))
     try {
@@ -61,7 +53,6 @@ const Content = ({ product }: ProductContent) => {
     }
   }
 
-
   const addToCart = () => {
     const productToSave: ProductStoreType = { 
       id: product.id,
@@ -84,8 +75,8 @@ const Content = ({ product }: ProductContent) => {
   return (
     <section className="product-content">
       <div className="product-content__intro">
-        <h5 className="product__id">Product ID:<br></br>{product.id}</h5>
-        <span className="product-on-sale">Sale</span>
+        {/* <h5 className="product__id">Product ID:<br></br>{product.id}</h5> */}
+        {/* <span className="product-on-sale">Sale</span> */}
         <h2 className="product__name">{product.name}</h2>
 
         <div className="product__prices">

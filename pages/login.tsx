@@ -1,11 +1,11 @@
 import Layout from "../layouts/Main";
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signIn, useSession } from "next-auth/react";
-import { useState, useEffect } from "react";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
-import { setUserLogged } from "../store/reducers/user"; // Importar la acción
+//import { useDispatch } from "react-redux";
+//import { setUserLogged } from "../store/reducers/user"; // Importar la acción
 type FormValues = {
   email: string;
   password: string;
@@ -21,8 +21,8 @@ const LoginPage = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-  const dispatch = useDispatch();
-  const { data: session, status } = useSession(); // Obtener la sesión
+  //const dispatch = useDispatch();
+  //const { data: session, status } = useSession(); // Obtener la sesión
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setErrorMessage(""); // Resetear el mensaje de error
@@ -40,11 +40,11 @@ const LoginPage = () => {
       router.push("/account");
     }
   };
-  useEffect(() => {
-    if (session && status === "authenticated") {
-      dispatch(setUserLogged( session.user )); // Despachar la sesión a Redux
-    }
-  }, [session, status, dispatch]);
+  // useEffect(() => {
+  //   if (session && status === "authenticated") {
+  //     dispatch(setUserLogged( session.user )); // Despachar la sesión a Redux
+  //   }
+  // }, [session, status, dispatch]);
   return (
     <Layout>
       <section className="form-page">

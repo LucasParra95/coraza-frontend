@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { setUserLogged } from '../store/reducers/user';
+import { setUserLogged, logout } from '../store/reducers/user';
 import { useSelector } from "react-redux";
 import { RootState } from 'store';
 import ProductItem from "components/product-item";
@@ -66,18 +66,27 @@ export default function Account() {
     { id: "orders", label: "Compras", icon: ShoppingBagIcon },
     { id: "addresses", label: "Direcciones", icon: MapPinIcon },
   ]
+  const refreshSession = async () => {
+    const response = await fetch("/api/auth/update-session");
+    const updatedSession = await response.json();
+    console.log("UpdatedSession", updatedSession);
+    
+    dispatch(setUserLogged(updatedSession.user));
+  };
+  
   useEffect(() => {
-    if (status === "loading") {
-      // Mientras la sesión se está verificando, no hacer nada.
-      return;
-    }
-    if (status === "unauthenticated") {
-      router.replace("/login"); // Redirigir al inicio de sesión si no está autenticado
-    }
-    if (status === "authenticated") {     
-      dispatch(setUserLogged(session.user));
-    }  
-  }, [status, session]);
+    const refreshUserData = async () => {
+      if (status === "authenticated" && session?.user) {
+        await refreshSession();
+      }
+
+    };
+  
+    if (status === "loading") return;
+    if (status === "unauthenticated") router.replace("/login");
+    refreshUserData();
+  }, [status, session, router, dispatch]);
+  
 
   const handleAddAddress = async () => {
 
@@ -115,7 +124,10 @@ export default function Account() {
     <div className="account-page">
       <div className="buttons">
         <h1>Mi Cuenta</h1>
-        <button onClick={() => signOut()}>Cerrar sesión</button>
+        <button onClick={() => {
+            dispatch(logout())
+            signOut()
+          }}>Cerrar sesión</button>
       </div>
 
       <div className="tabs">

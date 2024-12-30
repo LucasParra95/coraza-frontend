@@ -28,9 +28,9 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     toggleFavProduct(state, action: PayloadAction<ToggleFavType>) {
-      const index = state.favProducts.includes(action.payload.id);
+      const isFavorite = state.favProducts.includes(action.payload.id);
 
-      if (!index) {
+      if (!isFavorite) {
         state.favProducts.push(action.payload.id);
         
         return;
@@ -44,7 +44,7 @@ const userSlice = createSlice({
       return {
         ...state,
         user, // Almacena los datos completos del usuario en el estado
-        favProducts: user.favorites.map((prod: any) => prod._id) || state.favProducts,
+        favProducts: user.favorites || state.favProducts,
       };
     },
     logout(state) {

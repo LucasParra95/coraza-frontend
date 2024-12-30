@@ -17,6 +17,7 @@ export type ReviewType = {
 }
 
 export type ProductType = {
+  _id: string;
   id: string;
   name: string;
   thumb: string;

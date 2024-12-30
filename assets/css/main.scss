@@ -1822,6 +1822,7 @@ h5 {
   display: flex;
   flex-wrap: wrap;
   margin-right: -15px;
+  width: 80%;
   @include breakpoint(phone) {
     margin-right: -33px;
   }
@@ -2102,9 +2103,9 @@ h5 {
   .product__prices {
     display: flex;
     h4 {
-      font-weight: 400;
-      color: #ff0000;
-      font-size: 18px;
+      font-weight: 600;
+      color: var(--color-gray);
+      font-size: 30px;
       @include breakpoint(phone) {
         font-size: 30px;
       }
@@ -3132,6 +3133,82 @@ h5 {
     }
   }
 }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.alert-wrapper {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+}
+
+.alert {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.alert-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.alert-description {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-button {
+  padding: 8px 16px;
+  background-color: var(--slider-track);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  align-self: flex-end;
+}
+.login-button:hover {
+  background-color: var(--color-orange);
+}
+.close-button {
+  padding: 8px 16px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  align-self: flex-end;
+}
+
+.close-button:hover {
+  background-color: #c0392b;
+}
+
 
 .account-page {
   max-width: 1200px;
