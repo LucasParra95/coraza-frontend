@@ -1,3 +1,5 @@
+import { Stock } from "models/Stock";
+
 export type VotesType = {
   count: number;
   value: number;
@@ -25,7 +27,7 @@ export type ProductType = {
   description: string;
   count: number;
   color: string;
-  size: string;
+  size: Stock;
   images: string[];
   discount?: string;
   currentPrice: number;

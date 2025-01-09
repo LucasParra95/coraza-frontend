@@ -1,8 +1,8 @@
 export const productsSizes = [
-    {
-      id: '1',
-      label: 'XS',
-    },
+    // {
+    //   id: '1',
+    //   label: 'XS',
+    // },
     {
       id: '2',
       label: 'S',
@@ -19,10 +19,10 @@ export const productsSizes = [
       id: '5',
       label: 'XL',
     },
-    {
-      id: '6',
-      label: 'XXL',
-    },
+    // {
+    //   id: '6',
+    //   label: 'XXL',
+    // },
   ];
   
   export default productsSizes;

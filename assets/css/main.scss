@@ -1862,7 +1862,7 @@ h5 {
   select {
     color: var(--text-primary);
     font-size: 15px;
-    //padding: 9px 38px 9px 12px;
+    padding: 9px 38px 9px 12px;
     border: 1px solid var(--border-primary);
     border-radius: 50px;
     option {
@@ -1942,9 +1942,10 @@ h5 {
     max-width: 938px;
     margin: 0 auto;
     flex-wrap: wrap;
+    justify-content: center;
     @include breakpoint(phone) {
       display: flex;
-      justify-content: space-between;
+      //justify-content: space-between;
     }
     .product-description-block {
       text-align: center;
@@ -2181,9 +2182,22 @@ h5 {
       object-fit: contain;
     }
   }
+
+  .product-gallery__thumb.active {
+    transform: scale(1.4); /* Hace la miniatura un 40% más grande */
+    border: 2px solid var(--color-gray); /* Resalta la miniatura con un borde */
+    border-radius: 5px;
+  }
+
   .product-gallery__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
     height: 300px;
     width: 100%;
+    overflow: hidden;
     @include breakpoint(phone) {
       width: 476px;
       height: 476px;
@@ -2193,7 +2207,13 @@ h5 {
       height: 100%;
       object-position: top center;
       object-fit: contain;
+      transition: transform 0.3s ease, transform-origin 0.3s ease;
+      transform-origin: var(--mouse-x, 50%) var(--mouse-y, 50%);
     }
+  }
+
+  .product-gallery__image:hover img {
+    transform: scale(1.8); /* Aumenta el tamaño al pasar el mouse */
   }
 }
 
@@ -2775,6 +2795,7 @@ h5 {
     // &:before {
     //   right: 25px;
     // }
+    
     select {
       height: 47px;
       font-size: 14px;

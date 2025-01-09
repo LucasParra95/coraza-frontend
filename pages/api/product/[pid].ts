@@ -16,6 +16,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const product = await ProductModel.findById(pid)
      .populate('category')
      .populate('stock');
+
+    
+
     const productsFormated = 
       
       {
@@ -26,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         quantityAvailable: product?.stock,
         description: product?.description,
         category: product?.category,
-        sizes: [product?.price],
+        size: product?.stock,
         colors: [],
         images: product?.photos ,
         punctuation: {},

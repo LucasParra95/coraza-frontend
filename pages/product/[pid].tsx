@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next'
 
-import { useState } from 'react';
+//import { useState } from 'react';
 import Footer from '../../components/footer';
 import Layout from '../../layouts/Main';
 import Breadcrumb from '../../components/breadcrumb';
@@ -34,7 +34,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 }
 
 const Product = ({ product }: ProductPageType) => {
-  const [showBlock, setShowBlock] = useState('description');
+  //const [showBlock, setShowBlock] = useState('description');
+  const showBlock = "description"
 
   return (
     <Layout>
@@ -48,10 +49,10 @@ const Product = ({ product }: ProductPageType) => {
           </div>
 
           <div className="product-single__info">
-            <div className="product-single__info-btns">
+            {/* <div className="product-single__info-btns">
               <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Descripción</button>
               <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Opiniones (2)</button>
-            </div>
+            </div> */}
 
             <Description show={showBlock === 'description'} description={product.description} />
             {/* <Reviews product={product} show={showBlock === 'reviews'} /> */}
