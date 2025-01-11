@@ -1,37 +1,3 @@
-// import mongoose from "mongoose";
-
-// export interface IStocks extends mongoose.Document {
-//     unico: number;
-//     s: number;
-//     m: number;
-//     l: number;
-//     xl: number;
-//   }
-
-// const stockSchema = new mongoose.Schema<IStocks>({
-//     unico: {
-//         type: Number,
-//         default: 0
-//     },
-//     s: {
-//         type: Number,
-//         default: 0
-//     },
-//     m: {
-//         type: Number,
-//         default: 0
-//     },
-//     l: {
-//         type: Number,
-//         default: 0
-//     },
-//     xl: {
-//         type: Number,
-//         default: 0
-//     }
-// });
-  
-// export default mongoose.models.Stock ||  mongoose.model<IStocks>("Stock", stockSchema);
 import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
 
 @modelOptions({ schemaOptions: { collection: 'stocks' } })

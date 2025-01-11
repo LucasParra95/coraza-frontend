@@ -1,22 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../lib/dbConnect";
 import  ProductModel from "../../models/Product";
-// import Category from "../../models/Category";
-// import Stock from "../../models/Stock";
-
-// fake data
-// import products from '../../utils/data/products';
-
-// export default (req: NextApiRequest, res: NextApiResponse) => {
-//   // console.log(req);
-
-//   // fake loading time
-//   setTimeout(() => {
-//     res.status(200).json(products);
-//   }, 800);
-// }
-
-
 
 export default async function (
   req: NextApiRequest,
