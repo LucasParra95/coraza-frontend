@@ -13,14 +13,14 @@ export class Product {
   public price!: number;
   @prop({  type: String })
   public description!: string;
-  @prop({ type: () => mongoose.Schema.Types.Mixed , default: [] })
+  @prop({ type: () => [String] , default: [] })
   public photos!: string[];
   @prop({ ref: () => Category })
   public category!: Ref<Category>;
   @prop({  type: String })
   public subcategory!: string;
-  @prop({ ref: () => Stock })
-  public stock!: Ref<Stock>;
+  @prop({ ref: () => Stock, type: () => [Stock], default: [] })
+  public stock!: Ref<Stock>[];
   @prop({  type: Boolean })
   public enabled!: boolean;
 };
