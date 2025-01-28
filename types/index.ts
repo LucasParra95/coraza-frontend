@@ -27,7 +27,7 @@ export type ProductType = {
   description: string;
   count: number;
   color: string;
-  size: Stock;
+  size: Stock[];
   images: string[];
   discount?: string;
   currentPrice: number;

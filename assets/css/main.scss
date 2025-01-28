@@ -1886,6 +1886,13 @@ h5 {
   }
 }
 
+.quantity-error {
+  color: red;
+  margin-top: 1rem;
+  margin-left: 2rem;
+  display: list-item;
+}
+
 .quantity-button {
   border-radius: 50px;
   height: 38px;

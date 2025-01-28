@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 //import productsColors from './../../../utils/data/products-colors';
-import productsSizes from './../../../utils/data/products-sizes';
+//import productsSizes from './../../../utils/data/products-sizes';
 //import CheckboxColor from './../../products-filter/form-builder/checkbox-color';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from "next/router";
@@ -23,14 +23,20 @@ const Content = ({ product }: ProductContent) => {
   const [itemSize, setItemSize] = useState<string>('');
   const [showAlert, setShowAlert] = useState(false);
   const [sizeError, setSizeError] = useState<boolean>(false)
+  const [quantityError, setQuantityError] = useState<boolean>(false)
 
   //const onColorSet = (e: string) => setColor(e);
-  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => setItemSize(e.target.value);
+  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSizeError(false)
+    setItemSize(e.target.value)
+  };
 
   const user = useSelector((state: RootState) => state.user)
   const { favProducts } = useSelector((state: RootState) => state.user);
   const isFavourite = some(favProducts, productId => productId === product.id);
   const id = product._id;
+
+  const productsSizes = product.size.filter(stock => stock.quantity > 0).map(stock => stock.size);
 
   const handleClose = () => {
     setShowAlert(false)
@@ -78,22 +84,29 @@ const Content = ({ product }: ProductContent) => {
       size: itemSize
     }
 
+    const matchingSize = product.size?.find((item) => item.size === productToSave.size);
 
     const productStore = {
       count,
       product: productToSave
     }
     if (productToSave.size === "") {
-      setSizeError(true)
-    } else {
+      setSizeError(true);
+    } else if (matchingSize && productToSave.count > matchingSize.quantity){
+      setQuantityError(true);
+      setTimeout(() => setQuantityError(false), 2000)
+      console.log("La cantidad a guardar excede el stock disponible.");
+    }else{
       dispatch(addProduct(productStore));
     }
   }
   
-  if( product.size.unico > 0 ) {
-    setItemSize("unico")
-  }
-
+  useEffect(() => {
+    if (product.size?.some((item) => item.size === "Talle único")) {
+      setItemSize("Talle único");
+    }
+  }, [product.size]);
+  
   return (
     <section className="product-content">
 
@@ -155,7 +168,7 @@ const Content = ({ product }: ProductContent) => {
               </select>
             </div>
           </div> */}
-          {product.size.unico > 0 ? (
+          {product.size?.some((item) => item.size === "Talle único") ? (
             <div>
               <h5>Talle: <strong>Talle único</strong></h5>
             </div>
@@ -167,7 +180,7 @@ const Content = ({ product }: ProductContent) => {
                   <select defaultValue={"talle"} onChange={onSelectChange}>
                     <option disabled value={"talle"}>Talle</option>
                     {productsSizes.map(type => (
-                      <option value={type.label}>{type.label}</option>
+                      <option key={type} value={type}>{type}</option>
                     ))}
                   </select>
                 </div>
@@ -183,19 +196,26 @@ const Content = ({ product }: ProductContent) => {
         <div className="product-filter-item">
           <h5>Cantidad:</h5>
           <div className="quantity-buttons">
-            <div className="quantity-button">
-              <button type="button" onClick={() => count > 1 ? setCount(count - 1) : ""} className="quantity-button__btn">
-                -
-              </button>
-              <span>{count}</span>
-              <button type="button" onClick={() => setCount(count + 1)} className="quantity-button__btn">
-                +
-              </button>
+            <div>
+              <div className="quantity-button">
+                <button type="button" onClick={() => count > 1 ? setCount(count - 1) : ""} className="quantity-button__btn">
+                  -
+                </button>
+                <span>{count}</span>
+                <button type="button" onClick={() => setCount(count + 1)} className="quantity-button__btn">
+                  +
+                </button>
+              </div>
             </div>
             
             <button type="submit" onClick={() => addToCart()} className="btn btn--rounded btn--yellow">Añadir al carrito</button>
             <button type="button" onClick={handleFavorites} className={`btn-heart ${isFavourite ? 'btn-heart--active' : ''}`}><i className="icon-heart"></i></button>
           </div>
+          {quantityError && (
+            <div className='quantity-error'>
+              Cantidad no disponible
+            </div>
+          )}
         </div>
       </div>
     </section>
