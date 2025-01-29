@@ -1,12 +1,10 @@
 import { useSelector } from 'react-redux';
 import CheckoutStatus from '../../components/checkout-status';
 import Item from './item';
-import { useSession } from "next-auth/react";
 import { RootState } from 'store';
 
 const ShoppingCart = () => {
   const { cartItems } = useSelector((state: RootState)  => state.cart);
-  const { data: session } = useSession()
 
   const priceTotal = () => {
     let totalPrice = 0;
@@ -31,7 +29,7 @@ const ShoppingCart = () => {
               <tbody>
                 <tr>
                   <th style={{textAlign: 'left'}}>Producto</th>
-                  <th>Color</th>
+                  {/* <th>Color</th> */}
                   <th>Tamaño</th>
                   <th>Cantidad</th>
                   <th>Precio</th>
@@ -40,11 +38,11 @@ const ShoppingCart = () => {
 
                 {cartItems.map(item => (
                   <Item 
-                    key={item.id}
+                    key={item.id+item.size}
                     id={item.id}
                     thumb={item.thumb}
                     name={item.name}
-                    color={item.color}
+                    available={item.available}
                     price={item.price}
                     size={item.size}
                     count={item.count}
@@ -69,11 +67,6 @@ const ShoppingCart = () => {
           </div>
         </div>
       </div>
-      {!session &&
-        <div role='dialog'>
-          <h2>Debes iniciar sesión para poder comprar</h2>
-        </div>
-      }
     </section>
   )
 };

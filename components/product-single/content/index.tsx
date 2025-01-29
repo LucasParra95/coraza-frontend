@@ -74,17 +74,18 @@ const Content = ({ product }: ProductContent) => {
   }
 
   const addToCart = () => {
+    const matchingSize = product.size?.find((item) => item.size === itemSize);
+    
     const productToSave: ProductStoreType = { 
       id: product.id,
       name: product.name,
       thumb: product.images ? product.images[0] : '',
       price: product.currentPrice,
       count: count,
-      color: "",
+      available: matchingSize!.quantity,
       size: itemSize
     }
 
-    const matchingSize = product.size?.find((item) => item.size === productToSave.size);
 
     const productStore = {
       count,

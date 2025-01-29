@@ -12,7 +12,7 @@ const initialState = {
 const indexSameProduct = (state: CartTypes, action: ProductStoreType) => {
   const sameProduct = (product: ProductStoreType) => (
     product.id === action.id && 
-    product.color === action.color && 
+    // product.color === action.color && 
     product.size === action.size
   );
 

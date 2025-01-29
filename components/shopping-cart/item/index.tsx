@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { removeProduct, setCount } from 'store/reducers/cart';
 import { ProductStoreType } from 'types';
 
-const ShoppingCart = ({ thumb, name, id, color, size, count, price }: ProductStoreType) => {
+const ShoppingCart = ({ thumb, name, id, size, count, available, price }: ProductStoreType) => {
   const dispatch = useDispatch();
 
   const removeFromCart = () => {
@@ -11,7 +11,7 @@ const ShoppingCart = ({ thumb, name, id, color, size, count, price }: ProductSto
         thumb, 
         name, 
         id, 
-        color, 
+        available, 
         size, 
         count, 
         price
@@ -29,7 +29,7 @@ const ShoppingCart = ({ thumb, name, id, color, size, count, price }: ProductSto
         thumb, 
         name, 
         id, 
-        color, 
+        available, 
         size, 
         count, 
         price
@@ -54,8 +54,12 @@ const ShoppingCart = ({ thumb, name, id, color, size, count, price }: ProductSto
           </div>
         </div>
       </td>
-      <td className="cart-item-before" data-label="Color">{color}</td>
-      <td className="cart-item-before" data-label="Size">{size}</td>
+      {/* <td className="cart-item-before" data-label="Color">{color}</td> */}
+      <td className="cart-item-before" data-label="Size">
+        <span className='quantity-button'>
+          {size}
+        </span>
+      </td>
       <td>
         <div className="quantity-button">
           <button type="button" onClick={() => setProductCount(count - 1)} className="quantity-button__btn">
@@ -68,6 +72,7 @@ const ShoppingCart = ({ thumb, name, id, color, size, count, price }: ProductSto
         </div>
       </td>
       <td>${price}</td>
+      <td>{available}</td>
       <td className="cart-item-cancel"><i className="icon-cancel" onClick={() => removeFromCart()}></i></td>
     </tr>
   )
