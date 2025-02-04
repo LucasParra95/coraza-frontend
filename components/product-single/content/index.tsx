@@ -74,33 +74,51 @@ const Content = ({ product }: ProductContent) => {
   }
 
   const addToCart = () => {
+    // Buscar si existe un stock para el tamaño seleccionado
     const matchingSize = product.size?.find((item) => item.size === itemSize);
-    
-    const productToSave: ProductStoreType = { 
+    console.log("matchingSize", matchingSize);
+  
+    // Validar si se ha seleccionado un tamaño
+    if (!itemSize) {
+      setSizeError(true);
+      return;
+    }
+  
+    // Validar si el stock existe y si la cantidad es válida
+    if (!matchingSize) {
+      console.error(`No se encontró stock para el tamaño: ${itemSize}`);
+      setQuantityError(true);
+      setTimeout(() => setQuantityError(false), 2000);
+      return;
+    }
+  
+    // Validar si la cantidad solicitada excede la disponible
+    if (count > matchingSize.quantity) {
+      console.warn("La cantidad a guardar excede el stock disponible.");
+      setQuantityError(true);
+      setTimeout(() => setQuantityError(false), 2000);
+      return;
+    }
+  
+    // Crear el objeto de producto a guardar en el carrito
+    const productToSave: ProductStoreType = {
       id: product.id,
       name: product.name,
-      thumb: product.images ? product.images[0] : '',
+      thumb: product.images?.[0] || '',
       price: product.currentPrice,
       count: count,
-      available: matchingSize!.quantity,
-      size: itemSize
-    }
-
-
+      stock: matchingSize._id, // Solo se accede si `matchingSize` existe
+      size: itemSize,
+    };
+  
     const productStore = {
       count,
-      product: productToSave
-    }
-    if (productToSave.size === "") {
-      setSizeError(true);
-    } else if (matchingSize && productToSave.count > matchingSize.quantity){
-      setQuantityError(true);
-      setTimeout(() => setQuantityError(false), 2000)
-      console.log("La cantidad a guardar excede el stock disponible.");
-    }else{
-      dispatch(addProduct(productStore));
-    }
-  }
+      product: productToSave,
+    };
+  
+    // Agregar el producto al carrito
+    dispatch(addProduct(productStore));
+  };
   
   useEffect(() => {
     if (product.size?.some((item) => item.size === "Talle único")) {

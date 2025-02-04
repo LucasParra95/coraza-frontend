@@ -2,6 +2,7 @@ import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
 
 @modelOptions({ schemaOptions: { collection: 'stocks' } })
 export class Stock {
+  _id!: string;
   @prop({  required: true, type: () => String, enum: ["XS", "S", "M", "L", "XL", "Talle único"] })
   public size: string;
   @prop({ required: true, type: Number })

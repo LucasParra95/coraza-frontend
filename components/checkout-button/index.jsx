@@ -3,9 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
 
-//import { ProductStoreType } from '../../types/index';
-
-
 
 const CheckoutMercadoPago = ({errors,  dataEnvio}) => {
     const [url, setUrl] = useState(null);
@@ -37,7 +34,6 @@ const CheckoutMercadoPago = ({errors,  dataEnvio}) => {
       }
   }, [dataEnvio])
   
-
   return (
       <div>
           {
@@ -47,7 +43,6 @@ const CheckoutMercadoPago = ({errors,  dataEnvio}) => {
                   </button>
               ) : (
                 ( errors.nombre === "" & 
-                  errors.apellido === "" & 
                   errors.email === "" &
                   errors.provincia === "" &
                   errors.ciudad === "" &
@@ -59,7 +54,7 @@ const CheckoutMercadoPago = ({errors,  dataEnvio}) => {
                   </>
                 ) : (
                     <>
-                      <a className="btn btn--rounded btn--yellow">Ingrese los datos de envío</a>
+                      <a className="btn btn--rounded btn--yellow">Ingrese los datos faltantes</a>
                     </>
                 )
               )

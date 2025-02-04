@@ -19,51 +19,67 @@ const CheckoutPage = () => {
   const { data: session } = useSession();
 
   const [errors, setErrors] = useState({
-    nombre: "Este campo no puede estar vacio",
-    apellido: "Este campo no puede estar vacio",
-    email: "Este campo no puede estar vacio",
+    nombre: "Este campo no puede estar vacío",
+    email: "Este campo no puede estar vacío",
     provincia: "Seleccione una provincia",
-    ciudad: "Este campo no puede estar vacio",
-    cp: "Este campo no puede estar vacio",
-    direccion: "Este campo no puede estar vacio",
-    telefono: "Este campo no puede estar vacio"
+    ciudad: "Este campo no puede estar vacío",
+    cp: "Este campo no puede estar vacío",
+    direccion: "Este campo no puede estar vacío",
+    telefono: "Este campo no puede estar vacío",
   });
+
+  const [name, setName] = useState(session?.user?.name || "");
+  const [email, setEmail] = useState(session?.user?.email || "");
+  const [address, setAddress] = useState(session?.user?.addresses || "");
+  const [city, setCity] = useState(session?.user?.addresses[0].city || "");
+  const [postalCode, setPostalCode] = useState(session?.user?.addresses[0].postalCode || "");
+
   const [cities, setCities] = useState([]);
-  const [province, setProvince] = useState(undefined);
-  const [cp, setCp] = useState(undefined);
+  const [province, setProvince] = useState("");
 
   const [notification, setNotificacion] = useState({
     isOpen: false,
     type: null,
     content: "",
 });
+
+  useEffect(() => {
+    if (session) {
+      setName(session.user.name || "");
+      setEmail(session.user.email || "");
+      setAddress(session.user.addresses || []);
+      setCity(session.user.addresses[0].city || "");
+      setPostalCode(session.user.addresses[0].postalCode || "");
+
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        nombre: session.user.name ? "" : "Este campo no puede estar vacío",
+        email: session.user.email ? "" : "Este campo no puede estar vacío",
+        provincia: session.user.addresses[0].province ? "" : "Este campo no puede estar vacío",
+        ciudad: session.user.addresses[0].city ? "" : "Este campo no puede estar vacío",
+        cp: session.user.addresses[0].postalCode ? "" : "Este campo no puede estar vacío",
+        direccion: session.user.addresses[0].street ? "" : "Este campo no puede estar vacío",
+        telefono: session.user.phoneNumber ? "" : "Este campo no puede estar vacío",
+      }));
+    }
+  }, [session]);
   
-useEffect(() => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const status = urlParams.get("status")
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get("status");
 
-  if (status === "approved") {
+    if (status) {
       setNotificacion({
-          content: "Pago aprobado",
-          isOpen: true,
-          type: "approved"
+        content: status === "approved" ? "Pago aprobado" : "Pago fallido",
+        isOpen: true,
+        type: status,
       });
-  } else if (status === "failure") {
-      setNotificacion({
-          content: "Pago fallido",
-          isOpen: true,
-          type: "failure"
-      })
-  }
 
-  setTimeout(() =>{
-      setNotificacion({
-          isOpen: false,
-          type: null,
-          content: ""
-      });
-  }, 5000)
-}, [])
+      setTimeout(() => {
+        setNotificacion({ isOpen: false, type: null, content: "" });
+      }, 5000);
+    }
+  }, []);
 
   const getCities = async(province) => {
     const cities = await fetch(`https://apis.datos.gob.ar/georef/api/municipios?provincia=${province}&aplanar=true&campos=estandar&max=1000&inicio=0&exacto=true`)
@@ -96,9 +112,9 @@ useEffect(() => {
   const keyCorreo = process.env.NEXT_PUBLIC_CORREO_API_KEY
   
   useEffect(() => {
-    if (cp !== undefined&& province !== undefined) {
-      const getDataEnvio = async(province, cp) => {
-        const url = `https://correo-argentino1.p.rapidapi.com/calcularPrecio?cpOrigen=1900&cpDestino=${cp}&provinciaOrigen=AR-B&provinciaDestino=${province}&peso=${weight}`;
+    if (postalCode !== undefined&& province !== undefined) {
+      const getDataEnvio = async(province, postalCode) => {
+        const url = `https://correo-argentino1.p.rapidapi.com/calcularPrecio?cpOrigen=1900&cpDestino=${postalCode}&provinciaOrigen=AR-B&provinciaDestino=${province}&peso=${weight}`;
         const options = {
           method: 'GET',
           headers: {
@@ -115,13 +131,14 @@ useEffect(() => {
           console.error(error);
         } 
       }
-      getDataEnvio(province, cp)
+      getDataEnvio(province, postalCode)
       console.log(dataEnvio);
       
     }else{
       setDataEnvio();
     }
-  },[cp, province])
+  },[postalCode, province])
+  
   return (
     <Layout>
       <section className="cart">
@@ -150,42 +167,19 @@ useEffect(() => {
                 <h3 className="block__title">Informacíon de Envío:</h3>
                 <form className="form">
                     <div className="form__input-row form__input-row--two">
-                      <div className="form__col">
-                        <input
-                          onChange={(e) => {
-                          e.preventDefault()
-                          const target = e.target.value;
-
-                          if (target === "") {
-                            setErrors({...errors, nombre: "Este campo no puede estar vacío" })    
-                          }else{
-                            setErrors({...errors, nombre: "" })
-                          }
+                      <div className="form__col-wd">
+                      <input
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setErrors((prevErrors) => ({ ...prevErrors, nombre: value ? "" : "Este campo no puede estar vacío" }));
+                          setName(value);
                         }}
-                          className="form__input form__input--sm"
-                          type="text"
-                          placeholder="Nombre"
-                        />
-                        <a>{errors.nombre}</a>
-                      </div>
-  
-                      <div className="form__col">
-                        <input
-                          onChange={(e) => {
-                            e.preventDefault()
-                            const target = e.target.value;
-  
-                            if (target === "") {
-                              setErrors({...errors, apellido: "Este campo no puede estar vacío" })    
-                            }else{
-                              setErrors({...errors, apellido: "" })
-                            }
-                          }}
-                          className="form__input form__input--sm"
-                          type="text"
-                          placeholder="Apellido"
-                        />
-                        <a>{errors.apellido}</a>  
+                        className="form__input form__input--sm"
+                        type="text"
+                        placeholder="Nombre completo"
+                        value={name}
+                      />
+                      {errors.nombre && <a className="error">{errors.nombre}</a>}
                       </div>
                     </div>
                   <div className="form__input-row form__input-row--two">
@@ -193,21 +187,22 @@ useEffect(() => {
                       <input
                         onChange={(e) => {
                           e.preventDefault()
-                          const target = e.target.value;
+                          const value = e.target.value;
 
-                          if (target === "") {
+                          if (value === "") {
                             setErrors({...errors, email: "Este campo no puede estar vacío" })    
                           }else 
-                          if (target.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
+                          if (value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
                             setErrors({...errors, email: "" })
                           }else{
                             setErrors({...errors, email: "Ingrese un mail válido" })
                           }
-                          
+                          setEmail(value)
                         }}
                         className="form__input form__input--sm"
                         type="text"
                         placeholder="Email"
+                        value={email}
                       />
                       <a>{errors.email}</a>
                     </div>
@@ -261,20 +256,22 @@ useEffect(() => {
                         <input
                         onChange={(e) => {
                           e.preventDefault();
-                          const target = e.target.value;
+                          const value = e.target.value;
 
-                          if (target === "") {
+                          if (value === "") {
                             setErrors({...errors, ciudad: "Este campo no puede estar vacío" })    
                           }else 
-                          if (target.length > 3) {
+                          if (value.length > 3) {
                             setErrors({...errors, ciudad: "" })
                           }else{
                             setErrors({...errors, ciudad: "Ingrese un ciudad" })
-                          }                          
+                          }   
+                          setCity(value)
                         }}
                         list="ciudad"
                         className="form__input form__input--sm"
                         type="text"
+                        value={city}
                         placeholder="Ciudad"/>
                         <datalist 
                           id="ciudad">
@@ -310,6 +307,7 @@ useEffect(() => {
                         }}
                         className="form__input form__input--sm"
                         type="text"
+                        value={postalCode}
                         placeholder="Código postal / ZIP"
                       />
                       <a>{errors.cp}</a>
@@ -335,6 +333,7 @@ useEffect(() => {
                         }}
                         className="form__input form__input--sm"
                         type="text"
+                        value={session?.user.addresses[0].street}
                         placeholder="Dirección"
                       />
                       <a>{errors.direccion}</a>

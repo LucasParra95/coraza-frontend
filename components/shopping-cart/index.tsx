@@ -42,7 +42,7 @@ const ShoppingCart = () => {
                     id={item.id}
                     thumb={item.thumb}
                     name={item.name}
-                    available={item.available}
+                    stock={item.stock}
                     price={item.price}
                     size={item.size}
                     count={item.count}

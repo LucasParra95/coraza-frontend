@@ -51,7 +51,7 @@ export type ProductStoreType = {
   thumb: string;
   price: number;
   count: number;
-  available: number;
+  stock: string;
   size: string;
 }
 
