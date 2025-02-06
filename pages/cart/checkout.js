@@ -30,12 +30,41 @@ const CheckoutPage = () => {
 
   const [name, setName] = useState(session?.user?.name || "");
   const [email, setEmail] = useState(session?.user?.email || "");
-  const [address, setAddress] = useState(session?.user?.addresses || "");
+  const [address, setAddress] = useState(session?.user?.addresses[0].street || "");
   const [city, setCity] = useState(session?.user?.addresses[0].city || "");
   const [postalCode, setPostalCode] = useState(session?.user?.addresses[0].postalCode || "");
+  const [phoneNumber, setPhoneNumber] = useState("")
 
   const [cities, setCities] = useState([]);
-  const [province, setProvince] = useState("");
+  const [province, setProvince] = useState(session?.user?.addresses[0].province || "");
+  const [provinceCode, setProvinceCode] = useState("");
+
+  const provinceMap = {
+    "Buenos Aires": "AR-B",
+    "Capital Federal": "AR-C",
+    "Catamarca": "AR-K",
+    "Chaco": "AR-H",
+    "Chubut": "AR-U",
+    "Córdoba": "AR-X",
+    "Corrientes": "AR-W",
+    "Entre Ríos": "AR-E",
+    "Formosa": "AR-P",
+    "Jujuy": "AR-Y",
+    "La Pampa": "AR-L",
+    "La Rioja": "AR-F",
+    "Mendoza": "AR-M",
+    "Misiones": "AR-N",
+    "Neuquén": "AR-Q",
+    "Río Negro": "AR-R",
+    "Salta": "AR-A",
+    "San Juan": "AR-J",
+    "San Luis": "AR-D",
+    "Santa Cruz": "AR-Z",
+    "Santa Fe": "AR-S",
+    "Santiago del Estero": "AR-G",
+    "Tierra del Fuego": "AR-V",
+    "Tucumán": "AR-T",
+  };
 
   const [notification, setNotificacion] = useState({
     isOpen: false,
@@ -47,9 +76,13 @@ const CheckoutPage = () => {
     if (session) {
       setName(session.user.name || "");
       setEmail(session.user.email || "");
-      setAddress(session.user.addresses || []);
+      setAddress(session.user.addresses[0].street || "");
       setCity(session.user.addresses[0].city || "");
       setPostalCode(session.user.addresses[0].postalCode || "");
+
+      const provinceName = session.user.addresses[0].province
+      setProvince(provinceName || "");
+      setProvinceCode(provinceMap[provinceName] || "");
 
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -112,9 +145,9 @@ const CheckoutPage = () => {
   const keyCorreo = process.env.NEXT_PUBLIC_CORREO_API_KEY
   
   useEffect(() => {
-    if (postalCode !== undefined&& province !== undefined) {
-      const getDataEnvio = async(province, postalCode) => {
-        const url = `https://correo-argentino1.p.rapidapi.com/calcularPrecio?cpOrigen=1900&cpDestino=${postalCode}&provinciaOrigen=AR-B&provinciaDestino=${province}&peso=${weight}`;
+    if (postalCode !== "" && provinceCode !== "") {
+      const getDataEnvio = async(provinceCode, postalCode) => {
+        const url = `https://correo-argentino1.p.rapidapi.com/calcularPrecio?cpOrigen=1900&cpDestino=${postalCode}&provinciaOrigen=AR-B&provinciaDestino=${provinceCode}&peso=${weight}`;
         const options = {
           method: 'GET',
           headers: {
@@ -131,14 +164,13 @@ const CheckoutPage = () => {
           console.error(error);
         } 
       }
-      getDataEnvio(province, postalCode)
-      console.log(dataEnvio);
+      getDataEnvio(provinceCode, postalCode)
       
     }else{
       setDataEnvio();
     }
-  },[postalCode, province])
-  
+  },[postalCode, provinceCode])
+    
   return (
     <Layout>
       <section className="cart">
@@ -212,12 +244,18 @@ const CheckoutPage = () => {
                         <select 
                           onChange={async (e)=>{
                             e.preventDefault()
-                            const province = e.target.options[e.target.options.selectedIndex]
-                            const cities = await getCities(province.text)
-                            setProvince(e.target.value)
-                            setErrors({...errors, provincia: ""} )
-                            setCities(cities)
+                            
+                            const selectedOption = e.target.options[e.target.selectedIndex];
+                            const selectedProvince = selectedOption.title;
+                            const selectedProvinceCode = e.target.value;
+                            
+                            const cities = await getCities(selectedProvince)
+                            setProvince(selectedProvince);
+                            setProvinceCode(selectedProvinceCode);
+                            setErrors((prevErrors) => ({ ...prevErrors, provincia: "" }));
+                            setCities(cities);
                           }}
+                          value={provinceCode || ""}
                         >
                           <option>Provincia</option>
                           <option value="AR-B" title="Buenos Aires">Buenos Aires</option>
@@ -294,14 +332,14 @@ const CheckoutPage = () => {
                           const target = e.target.value;
 
                           if (target === "") {
-                            setCp(undefined)
+                            setPostalCode("")
                             setErrors({...errors, cp: "Este campo no puede estar vacío" });
                           }else 
                           if (target.match(/^\d{4}$/)) {
-                            setCp(target);
+                            setPostalCode(target);
                             setErrors({...errors, cp: "" });
                           }else{
-                            setCp(undefined)
+                            setPostalCode(target)
                             setErrors({...errors, cp: "Ingrese un código postal válido" });
                           }
                         }}
@@ -333,7 +371,7 @@ const CheckoutPage = () => {
                         }}
                         className="form__input form__input--sm"
                         type="text"
-                        value={session?.user.addresses[0].street}
+                        value={address}
                         placeholder="Dirección"
                       />
                       <a>{errors.direccion}</a>
@@ -343,7 +381,7 @@ const CheckoutPage = () => {
                         onChange={(e) => {
                           e.preventDefault()
                           const target = e.target.value;
-
+                          setPhoneNumber(target)
                           if (target === "") {
                             setErrors({...errors, telefono: "Este campo no puede estar vacío" })    
                           }else 
@@ -356,11 +394,13 @@ const CheckoutPage = () => {
                         className="form__input form__input--sm"
                         type="text"
                         placeholder="Número de teléfono"
+                        value={phoneNumber}
                       />
                       <a>{errors.telefono}</a>
                     </div>
                   </div>
                 </form>
+                <p className="block__title">(*Verifica que los datos ingresados sean correctos)</p>
               </div>
             </div>
 
@@ -397,7 +437,7 @@ const CheckoutPage = () => {
               <a href="/products" type="button" className="btn btn--rounded btn--border">
                 Continuar comprando
               </a>
-              <CheckoutMercadoPago errors={errors} dataEnvio={dataEnvio}/>
+              <CheckoutMercadoPago errors={errors} dataEnvio={dataEnvio} userName={name} userEmail={email} userAddress={`${address}, ${city}, ${province}, ${postalCode}`} userPhone={phoneNumber}/>
             </div>
           </div>
         </div>

@@ -48,7 +48,7 @@ export class Address {
   public postalCode!: string;
 
   @prop({ required: true, type: () => String })
-  public country!: string;
+  public province!: string;
 }
 
 const UserModel = getModelForClass(User);

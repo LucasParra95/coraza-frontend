@@ -38,7 +38,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         auto_return: "approved",
         back_urls: {
           success: `${URL}/cart/`,
-          failure: `${URL}`,
+          failure: `${URL}/cart/`,
         },
         notification_url: `${URL}/api/payments`,
         payment_methods: {

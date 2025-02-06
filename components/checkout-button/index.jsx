@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
 
 
-const CheckoutMercadoPago = ({errors,  dataEnvio}) => {
+const CheckoutMercadoPago = ({errors,  dataEnvio, userName, userEmail, userAddress, userPhone}) => {
     const [url, setUrl] = useState(null);
     const [loading, setLoading] = useState(true);
     const { cartItems } = useSelector((state) => state.cart);
@@ -33,6 +33,38 @@ const CheckoutMercadoPago = ({errors,  dataEnvio}) => {
         generateLink();
       }
   }, [dataEnvio])
+
+  const handleClick = async () => {
+    try {
+      const orderData = {
+        cartItems, // Array de productos en el carrito
+        userName,
+        userEmail,
+        userAddress,
+        userPhone,
+      };
+  
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.message || "Error al procesar la orden");
+      }
+  
+      alert("Orden creada con éxito");
+      // Aquí puedes limpiar el carrito o redirigir al usuario
+    } catch (error) {
+      console.error("Error al enviar la orden:", error);
+      alert(error.message);
+    }
+  }
   
   return (
       <div>
@@ -50,7 +82,11 @@ const CheckoutMercadoPago = ({errors,  dataEnvio}) => {
                   errors.direccion === "" &
                   errors.telefono === "") ? (
                   <>
-                      <a href={url} className="btn btn--rounded btn--yellow">Pagar ahora</a>
+                      <a 
+                      // href={url} 
+                      className="btn btn--rounded btn--yellow"
+                        onClick={()=>handleClick()}
+                      >Pagar ahora</a>
                   </>
                 ) : (
                     <>
